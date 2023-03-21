@@ -1,2 +1,1 @@
-# containerlab-cellular-testbed
-(WIP) Containerlab-based testbed for cellular mobile communications networks
+# Containerlab and _Virtual Networks over linuX_ (VNX) testbeds for cellular mobile communications networks
