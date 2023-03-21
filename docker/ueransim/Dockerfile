@@ -47,6 +47,6 @@ RUN ./bootstrap && make && make install
 WORKDIR /
 RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j
 
-# Copy UERANSIM binaries to /usr/local/bin
+# Link UERANSIM binaries to /usr/local/bin
 WORKDIR /UERANSIM/build
-RUN ln -s nr-gnb /usr/local/bin/nr-gnb && ln -s nr-ue /usr/local/bin/nr-ue && ln -s nr-cli /usr/local/bin/nr-cli && ln -s nr-binder /usr/local/bin/nr-binder
+RUN ln -s nr-gnb /usr/local/bin/nr-gnb && ln -s nr-ue /usr/local/bin/nr-ue && ln -s nr-cli /usr/local/bin/nr-cli && ln -s nr-binder /usr/local/bin/nr-binder && ln -s libdevbnd.so /usr/local/bin/libdevbnd.so
