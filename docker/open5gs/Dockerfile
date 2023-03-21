@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Dockerfile for UERANSIM containers.
+# Dockerfile for Open5GS containers.
 
 # The base image is Ubuntu 20.04 LTS ("focal").
 FROM ubuntu:focal
@@ -33,18 +33,29 @@ ENV TZ=Europe/Madrid
 RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 
 # Install some basic tools and dependencies.
-RUN apt install -y nano bash net-tools ldnsutils iputils-ping traceroute iproute2 openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ libsctp-dev lksctp-tools libssl-dev
+RUN apt install -y nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
+    openssh-server tcpdump unzip subversion git curl wget gnupg python3-pip python3-setuptools \
+    python3-wheel ninja-build build-essential flex bison git cmake libsctp-dev libgnutls28-dev \
+    libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev libyaml-dev libnghttp2-dev \
+    libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev libtins-dev libtalloc-dev meson
 
-# Download and extract cmake source code (latest stable version as of March 21, 2023: 3.26.0)
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.0/cmake-3.26.0.tar.gz
-RUN tar -xzf cmake-3.26.0.tar.gz
+# Install MongoDB.
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
+RUN echo "deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+RUN apt update && apt install -y mongodb-org
 
-# Build cmake from source code.
-WORKDIR /cmake-3.26.0
-RUN ./bootstrap && make && make install
+# Install NodeJS.
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt install nodejs
 
-# Clone and build UERANSIM from its GitHub repository.
+# Clone, build and install Open5GS from its GitHub repository.
+RUN git clone https://github.com/open5gs/open5gs
+WORKDIR /open5gs
+RUN meson build --prefix=`pwd`/install
+RUN ninja -C build
+RUN cd build/ && ninja install
+WORKDIR /open5gs
+RUN cd webui/ && npm ci
+
 WORKDIR /
-RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j
 
-WORKDIR /
