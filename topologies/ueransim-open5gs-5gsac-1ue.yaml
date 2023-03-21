@@ -1,0 +1,78 @@
+# MIT License
+# 
+# Copyright (c) 2023 martinezgarciadavid
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+name: ueransim-open5gs-5gsac-1ue
+
+topology:
+  nodes:
+    ue:
+      kind: linux
+      image: clab-cellular-testbed/ueransim:latest
+    gnb:
+      kind: linux
+      image: clab-cellular-testbed/ueransim:latest
+    nrf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    scp:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    amf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    smf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    upf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    ausf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    udm:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    udr:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    pcf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    nssf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+    bsf:
+      kind: linux
+      image: clab-cellular-testbed/open5gs:latest
+
+  links:
+    - endpoints: ["ue:eth1", "gnb:eth1"] # Uu interface
+    - endpoints: ["gnb:eth2", "amf:eth1"] # N2 interface
+    - endpoints: ["amf:eth2", "smf:eth1"] # N11 interface
+    - endpoints: ["amf:eth3", "pcf:eth1"] # N15 interface
+    - endpoints: ["amf:eth4", "udm:eth1"] # N8 interface
+    - endpoints: ["amf:eth5", "ausf:eth1"] # N12 interface
+    - endpoints: ["smf:eth2", "udm:eth2"] # N10 interface
+    - endpoints: ["smf:eth3", "pcf:eth2"] # N7 interface
+    - endpoints: ["pcf:eth3", "udr:eth1"] # N36 interface
+    - endpoints: ["udr:eth1", "udm:eth3"] # N35 interface
+    - endpoints: ["udm:eth4", "ausf:eth2"] # N13 interface
