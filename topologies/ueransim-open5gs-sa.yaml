@@ -20,52 +20,60 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-name: ueransim-open5gs-5gsac-1ue
+# Containerlab topology with UERANSIM (1 gNB, 1 UE) and Open5GS (SA).
+name: ueransim-open5gs-sa
 
 topology:
   nodes:
+    # RAN Elements (UERANSIM):
     ue:
       kind: linux
-      image: clab-cellular-testbed/ueransim:latest
+      image: containerized-cellular-testbeds/ueransim:latest
     gnb:
       kind: linux
-      image: clab-cellular-testbed/ueransim:latest
+      image: containerized-cellular-testbeds/ueransim:latest
+    
+    # 5G Core Elements (Open5GS, SA):
     nrf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     scp:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     amf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     smf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     upf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     ausf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     udm:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     udr:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     pcf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     nssf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
     bsf:
       kind: linux
-      image: clab-cellular-testbed/open5gs:latest
+      image: containerized-cellular-testbeds/open5gs:latest
+    
+    # Open5GS 5G Core Service Based Interface (SBI) is implemented as a Linux bridge:
+    br-sbi:
+      kind: bridge
 
   links:
-    - endpoints: ["ue:eth1", "gnb:eth1"] # Uu interface
+    - endpoints: ["ue:eth1", "gnb:eth1"] # NR Uu interface
     - endpoints: ["gnb:eth2", "amf:eth1"] # N2 interface
     - endpoints: ["amf:eth2", "smf:eth1"] # N11 interface
     - endpoints: ["amf:eth3", "pcf:eth1"] # N15 interface
