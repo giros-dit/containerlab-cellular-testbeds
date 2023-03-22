@@ -33,7 +33,9 @@ ENV TZ=Europe/Madrid
 RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 
 # Install some basic tools and dependencies.
-RUN apt install -y nano bash net-tools ldnsutils iputils-ping traceroute iproute2 openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ libsctp-dev lksctp-tools libssl-dev
+RUN apt install -y nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
+    openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ libsctp-dev \
+    lksctp-tools libssl-dev
 
 # Download and extract cmake source code (latest stable version as of March 21, 2023: 3.26.0)
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.0/cmake-3.26.0.tar.gz
