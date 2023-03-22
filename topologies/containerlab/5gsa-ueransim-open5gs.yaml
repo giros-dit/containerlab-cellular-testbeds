@@ -46,8 +46,33 @@ topology:
     
     ### 5G Core Elements (Open5GS) ###
 
+    # AMF (Access and Mobility Management Function):
+    amf:
+      kind: linux
+      image: containerized-cellular-testbeds/open5gs:latest
+    
+    # AUSF (Authentication Server Function):
+    ausf:
+      kind: linux
+      image: containerized-cellular-testbeds/open5gs:latest
+
+    # BSF (Binding Support Function):
+    bsf:
+      kind: linux
+      image: containerized-cellular-testbeds/open5gs:latest
+
     # NRF (Network Repository Function):
     nrf:
+      kind: linux
+      image: containerized-cellular-testbeds/open5gs:latest
+
+    # NSSF (Network Slice Selection Function):
+    nssf:
+      kind: linux
+      image: containerized-cellular-testbeds/open5gs:latest
+
+    # PCF (Policy Control Function):
+    pcf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
@@ -56,23 +81,8 @@ topology:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # AMF (Access and Mobility Management Function):
-    amf:
-      kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
-
     # SMF (Session Management Function):
     smf:
-      kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
-
-    # UPF (User Plane Function):
-    upf:
-      kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
-
-    # AUSF (Authentication Server Function):
-    ausf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
@@ -86,18 +96,8 @@ topology:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # PCF (Policy Control Function):
-    pcf:
-      kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
-
-    # NSSF (Network Slice Selection Function):
-    nssf:
-      kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
-
-    # BSF (Binding Support Function):
-    bsf:
+    # UPF (User Plane Function):
+    upf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
     
