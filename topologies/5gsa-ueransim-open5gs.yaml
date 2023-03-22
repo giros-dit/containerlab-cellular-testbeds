@@ -20,67 +20,117 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Containerlab topology with UERANSIM (1 gNB, 1 UE) and Open5GS (SA).
-name: ueransim-open5gs-sa
+# Containerlab topology for 3GPP 5G Standalone (SA) with UERANSIM (1 gNB, 1 UE) and Open5GS (5G Core).
+name: 5gsa-ueransim-open5gs
 
 topology:
   nodes:
-    # RAN Elements (UERANSIM):
+    ### RAN Elements (UERANSIM) ###
+
+    # UE (User Equipment)
     ue:
       kind: linux
       image: containerized-cellular-testbeds/ueransim:latest
+    
+    # gNB (gNodeB)
     gnb:
       kind: linux
       image: containerized-cellular-testbeds/ueransim:latest
     
-    # 5G Core Elements (Open5GS, SA):
+    ### 5G Core Elements (Open5GS) ###
+
+    # NRF (Network Repository Function)
     nrf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # SCP (Service Communication Proxy)
     scp:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # AMF (Access and Mobility Management Function)
     amf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # SMF (Session Management Function)
     smf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # UPF (User Plane Function)
     upf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # AUSF (Authentication Server Function)
     ausf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # UDM (Unified Data Management)
     udm:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # UDR (Unified Data Repository)
     udr:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # PCF (Policy Control Function)
     pcf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # NSSF (Network Slice Selection Function)
     nssf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
+
+    # BSF (Binding Support Function)
     bsf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
     
-    # Open5GS 5G Core Service Based Interface (SBI) is implemented as a Linux bridge:
+    # Open5GS 5G Core Service Based Interface (SBI) is implemented as a Linux bridge (br-sbi)
     br-sbi:
       kind: bridge
 
+    # Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0)
+    virbr0:
+      kind: bridge
+
+  ### Links between entities (Interfaces) ###
   links:
-    - endpoints: ["ue:eth1", "gnb:eth1"] # NR Uu interface
-    - endpoints: ["gnb:eth2", "amf:eth1"] # N2 interface
-    - endpoints: ["amf:eth2", "smf:eth1"] # N11 interface
-    - endpoints: ["amf:eth3", "pcf:eth1"] # N15 interface
-    - endpoints: ["amf:eth4", "udm:eth1"] # N8 interface
-    - endpoints: ["amf:eth5", "ausf:eth1"] # N12 interface
-    - endpoints: ["smf:eth2", "udm:eth2"] # N10 interface
-    - endpoints: ["smf:eth3", "pcf:eth2"] # N7 interface
-    - endpoints: ["pcf:eth3", "udr:eth1"] # N36 interface
-    - endpoints: ["udr:eth1", "udm:eth3"] # N35 interface
-    - endpoints: ["udm:eth4", "ausf:eth2"] # N13 interface
+    # NR-Uu Interface
+    - endpoints: ["ue:eth1", "gnb:eth1"]
+    # N2 Interface
+    - endpoints: ["gnb:eth2", "amf:eth1"]
+    # N3 Interface
+    - endpoints: ["gnb:eth3", "upf:eth1"]
+    # N4 Interfaces (N4, N4u)
+    - endpoints: ["smf:eth1", "upf:eth2"]
+    # N6 Interface
+    - endpoints: ["upf:eth3", "virbr0:eth1"]
+    # AMF-SBI (N8, N11, N12, N15 Interfaces)
+    - endpoints: ["amf:eth2", "br-sbi:eth1"]
+    # SMF-SBI (N7, N10, N11 Interfaces)
+    - endpoints: ["smf:eth2", "br-sbi:eth2"]
+    # PCF-SBI (N7, N15, N36 Interfaces)
+    - endpoints: ["pcf:eth1", "br-sbi:eth3"]
+    # UDR-SBI (N35, N36 Interfaces)
+    - endpoints: ["udr:eth1", "br-sbi:eth4"]
+    # UDM-SBI (N8, N10. N13, N35 Interfaces)
+    - endpoints: ["udm:eth1", "br-sbi:eth5"]
+    # AUSF-SBI (N12, N13 Interfaces)
+    - endpoints: ["ausf:eth1", "br-sbi:eth6"]
+    # NRF-SBI
+    - endpoints: ["nrf:eth1", "br-sbi:eth7"]
+    # NSSF-SBI
+    - endpoints: ["nssf:eth1", "br-sbi:eth8"]
+    # BSF-SBI
+    - endpoints: ["bsf:eth1", "br-sbi:eth9"]
+    # SCP-SBI
+    - endpoints: ["scp:eth1", "br-sbi:eth10"]
