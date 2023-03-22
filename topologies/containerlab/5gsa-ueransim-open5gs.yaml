@@ -20,117 +20,128 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Containerlab topology for 3GPP 5G Standalone (SA) with UERANSIM (1 gNB, 1 UE) and Open5GS (5G Core).
+### Containerlab topology for 3GPP 5G Standalone (SA) with UERANSIM (1 gNB, 1 UE) and Open5GS (5G Core) ###
 name: 5gsa-ueransim-open5gs
+
+### Management network ###
+mgmt:
+  network: mgmt
+  ipv4_subnet: 172.254.254.0/24
 
 topology:
   nodes:
     ### RAN Elements (UERANSIM) ###
 
-    # UE (User Equipment)
+    # UE (User Equipment):
     ue:
       kind: linux
       image: containerized-cellular-testbeds/ueransim:latest
+      mgmt_ipv4: 172.254.254.20
     
-    # gNB (gNodeB)
+    # gNB (gNodeB):
     gnb:
       kind: linux
       image: containerized-cellular-testbeds/ueransim:latest
+      mgmt_ipv4: 172.254.254.10
     
     ### 5G Core Elements (Open5GS) ###
 
-    # NRF (Network Repository Function)
+    # NRF (Network Repository Function):
     nrf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # SCP (Service Communication Proxy)
+    # SCP (Service Communication Proxy):
     scp:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # AMF (Access and Mobility Management Function)
+    # AMF (Access and Mobility Management Function):
     amf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # SMF (Session Management Function)
+    # SMF (Session Management Function):
     smf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # UPF (User Plane Function)
+    # UPF (User Plane Function):
     upf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # AUSF (Authentication Server Function)
+    # AUSF (Authentication Server Function):
     ausf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # UDM (Unified Data Management)
+    # UDM (Unified Data Management):
     udm:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # UDR (Unified Data Repository)
+    # UDR (Unified Data Repository):
     udr:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # PCF (Policy Control Function)
+    # PCF (Policy Control Function):
     pcf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # NSSF (Network Slice Selection Function)
+    # NSSF (Network Slice Selection Function):
     nssf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
 
-    # BSF (Binding Support Function)
+    # BSF (Binding Support Function):
     bsf:
       kind: linux
       image: containerized-cellular-testbeds/open5gs:latest
     
-    # Open5GS 5G Core Service Based Interface (SBI) is implemented as a Linux bridge (br-sbi)
+    # Open5GS 5G Core Service Based Interface (SBI) is implemented as a Linux bridge (br-sbi).
+    # NOTE: This bridge must be created before deploying the topology.
     br-sbi:
       kind: bridge
 
-    # Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0)
+    # Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0).
+    # NOTE: This bridge must be created before deploying the topology.
+    # It is automatically created after installing the libvirt package (and does NAT by default).
+    # Subnet for this bridge is 192.168.122.0/24 (host is at 192.168.122.1).
     virbr0:
       kind: bridge
 
   ### Links between entities (Interfaces) ###
   links:
-    # NR-Uu Interface
+    # NR-Uu Interface:
     - endpoints: ["ue:eth1", "gnb:eth1"]
-    # N2 Interface
+    # N2 Interface:
     - endpoints: ["gnb:eth2", "amf:eth1"]
-    # N3 Interface
+    # N3 Interface:
     - endpoints: ["gnb:eth3", "upf:eth1"]
-    # N4 Interfaces (N4, N4u)
+    # N4 Interfaces (N4, N4u):
     - endpoints: ["smf:eth1", "upf:eth2"]
-    # N6 Interface
+    # N6 Interface:
     - endpoints: ["upf:eth3", "virbr0:eth1"]
-    # AMF-SBI (N8, N11, N12, N15 Interfaces)
+    # AMF-SBI (N8, N11, N12, N15 Interfaces):
     - endpoints: ["amf:eth2", "br-sbi:eth1"]
-    # SMF-SBI (N7, N10, N11 Interfaces)
+    # SMF-SBI (N7, N10, N11 Interfaces):
     - endpoints: ["smf:eth2", "br-sbi:eth2"]
-    # PCF-SBI (N7, N15, N36 Interfaces)
+    # PCF-SBI (N7, N15, N36 Interfaces):
     - endpoints: ["pcf:eth1", "br-sbi:eth3"]
-    # UDR-SBI (N35, N36 Interfaces)
+    # UDR-SBI (N35, N36 Interfaces):
     - endpoints: ["udr:eth1", "br-sbi:eth4"]
-    # UDM-SBI (N8, N10. N13, N35 Interfaces)
+    # UDM-SBI (N8, N10. N13, N35 Interfaces):
     - endpoints: ["udm:eth1", "br-sbi:eth5"]
-    # AUSF-SBI (N12, N13 Interfaces)
+    # AUSF-SBI (N12, N13 Interfaces):
     - endpoints: ["ausf:eth1", "br-sbi:eth6"]
-    # NRF-SBI
+    # NRF-SBI:
     - endpoints: ["nrf:eth1", "br-sbi:eth7"]
-    # NSSF-SBI
+    # NSSF-SBI:
     - endpoints: ["nssf:eth1", "br-sbi:eth8"]
-    # BSF-SBI
+    # BSF-SBI:
     - endpoints: ["bsf:eth1", "br-sbi:eth9"]
-    # SCP-SBI
+    # SCP-SBI:
     - endpoints: ["scp:eth1", "br-sbi:eth10"]
