@@ -28,6 +28,7 @@ mgmt:
   network: mgmt
   ipv4_subnet: 172.100.1.0/24
 
+### Topology nodes (entities/elements) ###
 topology:
   nodes:
     ### RAN Elements (UERANSIM) ###
@@ -144,7 +145,7 @@ topology:
     - endpoints: ["pcf:eth1", "br-sbi:eth12"]
     # UDR-SBI (N35, N36 Interfaces):
     - endpoints: ["udr:eth1", "br-sbi:eth13"]
-    # UDM-SBI (N8, N10. N13, N35 Interfaces):
+    # UDM-SBI (N8, N10, N13, N35 Interfaces):
     - endpoints: ["udm:eth1", "br-sbi:eth14"]
     # AUSF-SBI (N12, N13 Interfaces):
     - endpoints: ["ausf:eth1", "br-sbi:eth15"]
