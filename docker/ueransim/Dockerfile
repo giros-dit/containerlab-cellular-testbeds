@@ -50,3 +50,17 @@ WORKDIR /
 RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j
 
 WORKDIR /
+
+# Finally, create an administration user, set a password for the root user and enable SSH access.
+# Administration user -> Username: admin / Password: admintelecom
+# Root user -> Username: root / Password: gprsumts
+RUN useradd -m admin -s /bin/bash
+RUN echo 'admin:admintelecom' | chpasswd
+RUN echo 'root:gprsumts' | chpasswd
+RUN echo 'admin ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+RUN echo 'export NOTVISIBLE="in user profile"' >> ~/.bashrc
+RUN echo "export VISIBLE=now" >> /etc/profile
+EXPOSE 22
+
