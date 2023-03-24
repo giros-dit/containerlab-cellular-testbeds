@@ -60,6 +60,7 @@ RUN cd webui/ && npm ci
 WORKDIR /
 
 # Finally, create an administration user, set a password for the root user and enable SSH access.
+# Reference: https://medium.com/@leicao.me/how-to-ssh-into-a-docker-container-remotely-as-root-or-a-non-root-user-b2105c797273
 # Administration user -> Username: admin / Password: admintelecom
 # Root user -> Username: root / Password: gprsumts
 RUN useradd -m admin -s /bin/bash
