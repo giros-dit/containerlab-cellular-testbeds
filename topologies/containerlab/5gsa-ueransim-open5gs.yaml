@@ -36,13 +36,13 @@ topology:
     # UE (User Equipment):
     ue:
       kind: linux
-      image: containerized-cellular-testbeds/ueransim:latest
+      image: giros-dit/docker-ueransim:latest
       mgmt_ipv4: 172.100.1.21
     
     # gNB (gNodeB):
     gnb:
       kind: linux
-      image: containerized-cellular-testbeds/ueransim:latest
+      image: giros-dit/docker-ueransim:latest
       mgmt_ipv4: 172.100.1.11
     
     ### 5G Core Elements (Open5GS) ###
@@ -50,67 +50,67 @@ topology:
     # AMF (Access and Mobility Management Function):
     amf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.31
     
     # AUSF (Authentication Server Function):
     ausf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.32
 
     # BSF (Binding Support Function):
     bsf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.33
 
     # NRF (Network Repository Function):
     nrf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.34
 
     # NSSF (Network Slice Selection Function):
     nssf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.35
 
     # PCF (Policy Control Function):
     pcf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.36
 
     # SCP (Service Communication Proxy):
     scp:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.37
 
     # SMF (Session Management Function):
     smf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.38
 
     # UDM (Unified Data Management):
     udm:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.39
 
     # UDR (Unified Data Repository):
     udr:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.40
 
     # UPF (User Plane Function):
     upf:
       kind: linux
-      image: containerized-cellular-testbeds/open5gs:latest
+      image: giros-dit/docker-open5gs:latest
       mgmt_ipv4: 172.100.1.41
     
     # Open5GS 5G Core Service Based Interface (SBI) is implemented as a Linux bridge (br-sbi).
@@ -137,17 +137,17 @@ topology:
     - endpoints: ["smf:eth1", "upf:eth2"]
     # N6 Interface:
     - endpoints: ["upf:eth3", "virbr0:eth10"]
-    # AMF-SBI (N8, N11, N12, N15 Interfaces):
+    # AMF-SBI (N8, N11, N12 and N15 Interfaces):
     - endpoints: ["amf:eth2", "br-sbi:eth10"]
-    # SMF-SBI (N7, N10, N11 Interfaces):
+    # SMF-SBI (N7, N10 and N11 Interfaces):
     - endpoints: ["smf:eth2", "br-sbi:eth11"]
-    # PCF-SBI (N7, N15, N36 Interfaces):
+    # PCF-SBI (N7, N15 and N36 Interfaces):
     - endpoints: ["pcf:eth1", "br-sbi:eth12"]
-    # UDR-SBI (N35, N36 Interfaces):
+    # UDR-SBI (N35 and N36 Interfaces):
     - endpoints: ["udr:eth1", "br-sbi:eth13"]
-    # UDM-SBI (N8, N10, N13, N35 Interfaces):
+    # UDM-SBI (N8, N10, N13 and N35 Interfaces):
     - endpoints: ["udm:eth1", "br-sbi:eth14"]
-    # AUSF-SBI (N12, N13 Interfaces):
+    # AUSF-SBI (N12 and N13 Interfaces):
     - endpoints: ["ausf:eth1", "br-sbi:eth15"]
     # NRF-SBI:
     - endpoints: ["nrf:eth1", "br-sbi:eth16"]
