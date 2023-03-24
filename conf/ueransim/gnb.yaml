@@ -1,6 +1,6 @@
 # MIT License
 # 
-# Copyright (c) 2023 martinezgarciadavid
+# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
