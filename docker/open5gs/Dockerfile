@@ -72,4 +72,3 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 RUN echo 'export NOTVISIBLE="in user profile"' >> ~/.bashrc
 RUN echo "export VISIBLE=now" >> /etc/profile
 EXPOSE 22
-
