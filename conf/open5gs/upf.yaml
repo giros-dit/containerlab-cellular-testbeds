@@ -196,9 +196,9 @@ logger:
 #
 upf:
     pfcp:
-      - addr: 127.0.0.7
+      - addr: 10.240.1.2
     gtpu:
-      - addr: 127.0.0.7
+      - addr: 10.240.1.2
     subnet:
       - addr: 10.45.0.1/16
       - addr: 2001:db8:cafe::1/48
@@ -215,6 +215,8 @@ upf:
 #      addr: 127.0.0.4
 #
 smf:
+  pfcp:
+    addr: 10.240.1.1
 
 #
 #  o Number of output streams per SCTP associations.

@@ -33,16 +33,11 @@ ENV TZ=Europe/Madrid
 RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 
 # Install some basic tools and dependencies.
-RUN apt install -y nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
+RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
     openssh-server tcpdump unzip subversion git curl wget gnupg python3-pip python3-setuptools \
-    python3-wheel ninja-build build-essential flex bison git cmake libsctp-dev libgnutls28-dev \
+    python3-wheel ninja-build build-essential flex bison cmake libsctp-dev libgnutls28-dev \
     libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev libyaml-dev libnghttp2-dev \
     libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev libtins-dev libtalloc-dev meson
-
-# Install MongoDB.
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
-RUN echo "deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-RUN apt update && apt install -y mongodb-org
 
 # Install NodeJS.
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
@@ -56,19 +51,6 @@ RUN ninja -C build
 RUN cd build/ && ninja install
 WORKDIR /open5gs
 RUN cd webui/ && npm ci
+RUN mkdir -p /var/log/open5gs/
 
 WORKDIR /
-
-# Finally, create an administration user, set a password for the root user and enable SSH access.
-# Reference: https://medium.com/@leicao.me/how-to-ssh-into-a-docker-container-remotely-as-root-or-a-non-root-user-b2105c797273
-# Administration user -> Username: admin / Password: admintelecom
-# Root user -> Username: root / Password: gprsumts
-RUN useradd -m admin -s /bin/bash
-RUN echo 'admin:admintelecom' | chpasswd
-RUN echo 'root:gprsumts' | chpasswd
-RUN echo 'admin ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-RUN echo 'export NOTVISIBLE="in user profile"' >> ~/.bashrc
-RUN echo "export VISIBLE=now" >> /etc/profile
-EXPOSE 22

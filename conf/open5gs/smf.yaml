@@ -62,14 +62,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/smf.key
-      cert: /etc/open5gs/tls/smf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/smf.key
+      cert: /open5gs/install/etc/open5gs/tls/smf.crt
     client:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/smf.key
-      cert: /etc/open5gs/tls/smf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/smf.key
+      cert: /open5gs/install/etc/open5gs/tls/smf.crt
 
 #
 #  <SBI Server>
@@ -599,20 +599,16 @@ sbi:
 #
 smf:
     sbi:
-      - addr: 127.0.0.4
+      - addr: 10.254.1.8
         port: 7777
     pfcp:
-      - addr: 127.0.0.4
-      - addr: ::1
+      - addr: 10.240.1.1
     gtpc:
-      - addr: 127.0.0.4
-      - addr: ::1
+      - addr: 10.240.1.1
     gtpu:
-      - addr: 127.0.0.4
-      - addr: ::1
+      - addr: 10.240.1.1
     metrics:
       - addr: 127.0.0.4
-        port: 9090
     subnet:
       - addr: 10.45.0.1/16
       - addr: 2001:db8:cafe::1/48
@@ -624,7 +620,7 @@ smf:
     mtu: 1400
     ctf:
       enabled: auto
-    freeDiameter: /etc/freeDiameter/smf.conf
+    freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
 
 #
 #  <SBI Client>>
@@ -692,7 +688,7 @@ smf:
 #
 scp:
     sbi:
-      - addr: 127.0.1.10
+      - addr: 10.254.1.7
         port: 7777
 
 #
@@ -813,7 +809,7 @@ scp:
 #
 upf:
     pfcp:
-      - addr: 127.0.0.7
+      - addr: 10.240.1.2
 
 #
 #  o Disable use of IPv4 addresses (only IPv6)

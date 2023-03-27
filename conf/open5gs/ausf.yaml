@@ -62,14 +62,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/ausf.key
-      cert: /etc/open5gs/tls/ausf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/ausf.key
+      cert: /open5gs/install/etc/open5gs/tls/ausf.crt
     client:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/ausf.key
-      cert: /etc/open5gs/tls/ausf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/ausf.key
+      cert: /open5gs/install/etc/open5gs/tls/ausf.crt
 
 #
 #  <SBI Server>
@@ -253,7 +253,7 @@ sbi:
 #
 ausf:
     sbi:
-      - addr: 127.0.0.11
+      - addr: 10.254.1.2
         port: 7777
 
 #
@@ -322,7 +322,7 @@ ausf:
 #
 scp:
     sbi:
-      - addr: 127.0.1.10
+      - addr: 10.254.1.7
         port: 7777
 
 #

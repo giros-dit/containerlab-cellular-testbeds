@@ -62,14 +62,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/amf.key
-      cert: /etc/open5gs/tls/amf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/amf.key
+      cert: /open5gs/install/etc/open5gs/tls/amf.crt
     client:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/amf.key
-      cert: /etc/open5gs/tls/amf.crt
+      cacert: /open5gs/install//etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/amf.key
+      cert: /open5gs/install/etc/open5gs/tls/amf.crt
 
 #
 #  <SBI Server>
@@ -413,29 +413,29 @@ sbi:
 #
 amf:
     sbi:
-      - addr: 127.0.0.5
+      - addr: 10.254.1.1
         port: 7777
     ngap:
-      - addr: 127.0.0.5
+      - addr: 10.100.1.1
     metrics:
       - addr: 127.0.0.5
         port: 9090
     guami:
       - plmn_id:
-          mcc: 999
-          mnc: 70
+          mcc: 001
+          mnc: 01
         amf_id:
-          region: 2
+          region: 1
           set: 1
     tai:
       - plmn_id:
-          mcc: 999
-          mnc: 70
+          mcc: 001
+          mnc: 01
         tac: 1
     plmn_support:
       - plmn_id:
-          mcc: 999
-          mnc: 70
+          mcc: 001
+          mnc: 01
         s_nssai:
           - sst: 1
     security:
@@ -511,7 +511,7 @@ amf:
 #
 scp:
     sbi:
-      - addr: 127.0.1.10
+      - addr: 10.254.1.7
         port: 7777
 
 #

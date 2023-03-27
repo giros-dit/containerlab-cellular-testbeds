@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Dockerfile for UERANSIM containers.
+# Dockerfile for MongoDB container.
 
 # The base image is Ubuntu 20.04 LTS ("focal").
 FROM ubuntu:focal
@@ -34,19 +34,9 @@ RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 
 # Install some basic tools and dependencies.
 RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
-    openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ libsctp-dev \
-    lksctp-tools libssl-dev
+    openssh-server tcpdump unzip subversion git curl wget gnupg
 
-# Download and extract cmake source code (latest stable version as of March 21, 2023: 3.26.0)
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.0/cmake-3.26.0.tar.gz
-RUN tar -xzf cmake-3.26.0.tar.gz
-
-# Build cmake from source code.
-WORKDIR /cmake-3.26.0
-RUN ./bootstrap && make && make install
-
-# Clone and build UERANSIM from its GitHub repository.
-WORKDIR /
-RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j
-
-WORKDIR /
+# Install MongoDB.
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
+RUN echo "deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+RUN apt update && apt install -y mongodb-org

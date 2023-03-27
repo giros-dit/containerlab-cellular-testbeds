@@ -1,4 +1,4 @@
-db_uri: mongodb://localhost/open5gs
+db_uri: mongodb://10.254.1.100/open5gs
 
 #
 #  o Set OGS_LOG_INFO to all domain level
@@ -64,14 +64,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/pcf.key
-      cert: /etc/open5gs/tls/pcf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/pcf.key
+      cert: /open5gs/install/etc/open5gs/tls/pcf.crt
     client:
       no_tls: true
-      cacert: /etc/open5gs/tls/ca.crt
-      key: /etc/open5gs/tls/pcf.key
-      cert: /etc/open5gs/tls/pcf.crt
+      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+      key: /open5gs/install/etc/open5gs/tls/pcf.key
+      cert: /open5gs/install/etc/open5gs/tls/pcf.crt
 
 #
 #  <SBI Server>
@@ -262,7 +262,7 @@ sbi:
 #
 pcf:
     sbi:
-      - addr: 127.0.0.13
+      - addr: 10.254.1.6
         port: 7777
     metrics:
       - addr: 127.0.0.13
@@ -317,7 +317,7 @@ pcf:
 #
 scp:
     sbi:
-      - addr: 127.0.1.10
+      - addr: 10.254.1.7
         port: 7777
 
 #
