@@ -136,24 +136,24 @@ topology:
     # N4 Interfaces (N4, N4u):
     - endpoints: ["smf:eth1", "upf:eth2"]
     # N6 Interface:
-    - endpoints: ["upf:eth3", "virbr0:eth10"]
+    - endpoints: ["upf:eth3", "virbr0:eth-upf"]
     # AMF-SBI (N8, N11, N12 and N15 Interfaces):
-    - endpoints: ["amf:eth2", "br-sbi:eth10"]
+    - endpoints: ["amf:eth2", "br-sbi:eth-amf"]
     # SMF-SBI (N7, N10 and N11 Interfaces):
-    - endpoints: ["smf:eth2", "br-sbi:eth11"]
+    - endpoints: ["smf:eth2", "br-sbi:eth-smf"]
     # PCF-SBI (N7, N15 and N36 Interfaces):
-    - endpoints: ["pcf:eth1", "br-sbi:eth12"]
+    - endpoints: ["pcf:eth1", "br-sbi:eth-pcf"]
     # UDR-SBI (N35 and N36 Interfaces):
-    - endpoints: ["udr:eth1", "br-sbi:eth13"]
+    - endpoints: ["udr:eth1", "br-sbi:eth-udr"]
     # UDM-SBI (N8, N10, N13 and N35 Interfaces):
-    - endpoints: ["udm:eth1", "br-sbi:eth14"]
+    - endpoints: ["udm:eth1", "br-sbi:eth-udm"]
     # AUSF-SBI (N12 and N13 Interfaces):
-    - endpoints: ["ausf:eth1", "br-sbi:eth15"]
+    - endpoints: ["ausf:eth1", "br-sbi:eth-ausf"]
     # NRF-SBI:
-    - endpoints: ["nrf:eth1", "br-sbi:eth16"]
+    - endpoints: ["nrf:eth1", "br-sbi:eth-nrf"]
     # NSSF-SBI:
-    - endpoints: ["nssf:eth1", "br-sbi:eth17"]
+    - endpoints: ["nssf:eth1", "br-sbi:eth-nssf"]
     # BSF-SBI:
-    - endpoints: ["bsf:eth1", "br-sbi:eth18"]
+    - endpoints: ["bsf:eth1", "br-sbi:eth-bsf"]
     # SCP-SBI:
-    - endpoints: ["scp:eth1", "br-sbi:eth19"]
+    - endpoints: ["scp:eth1", "br-sbi:eth-scp"]
