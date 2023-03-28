@@ -90,6 +90,7 @@ topology:
     nssf:
       kind: linux
       image: giros-dit/open5gs:latest
+        - export DB_URI=mongodb://10.254.1.100/open5gs
       exec:
         - ifconfig eth1 10.254.1.5 netmask 255.255.255.0
         - touch /var/log/open5gs/nssf.log
@@ -145,6 +146,13 @@ topology:
         - ifconfig eth3 192.168.122.95 netmask 255.255.255.0
         - touch /var/log/open5gs/upf.log
     
+    # Open5GS WebUI:
+    webui:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        - ifconfig eth1 10.254.1.200 netmask 255.255.255.0
+    
     # Open5GS 5G Core Service Based Interface (SBI) is implemented as an Open vSwitch bridge (br-sbi).
     # NOTE: This bridge must be created before deploying the topology.
     br-sbi:
@@ -190,4 +198,6 @@ topology:
     # SCP-SBI:
     - endpoints: ["scp:eth1", "br-sbi:scp"]
     # MongoDB Interface with Open5GS components:
-    - endpoints: ["mongodb:eth1", "br-sbi:mongodb"] 
+    - endpoints: ["mongodb:eth1", "br-sbi:mongodb"]
+    # Open5GS WebUI Interface with other components:
+    - endpoints: ["webui:eth1", "br-sbi:webui"]
