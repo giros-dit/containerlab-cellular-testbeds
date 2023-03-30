@@ -1,6 +1,6 @@
 # MIT License
 # 
-# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM)
+# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,8 @@ RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 
 # Install some basic tools and dependencies.
 RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
-    openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ libsctp-dev \
-    lksctp-tools libssl-dev
+    xauth openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ \
+    libsctp-dev lksctp-tools libssl-dev firefox
 
 # Download and extract cmake source code (latest stable version as of March 21, 2023: 3.26.0)
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.0/cmake-3.26.0.tar.gz
@@ -50,3 +50,17 @@ WORKDIR /
 RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j
 
 WORKDIR /
+
+# Finally, create an administration user, set a password for the root user and enable SSH access.
+# Reference: https://medium.com/@leicao.me/how-to-ssh-into-a-docker-container-remotely-as-root-or-a-non-root-user-b2105c797273
+# Administration user -> Username: admin / Password: admintelecom
+# Root user -> Username: root / Password: gprsumts
+RUN useradd -m admin -s /bin/bash
+RUN echo 'admin:admintelecom' | chpasswd
+RUN echo 'root:gprsumts' | chpasswd
+RUN echo 'admin ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+RUN echo 'export NOTVISIBLE="in user profile"' >> ~/.bashrc
+RUN echo "export VISIBLE=now" >> /etc/profile
+EXPOSE 22

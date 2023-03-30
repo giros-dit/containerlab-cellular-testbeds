@@ -1,6 +1,6 @@
 # MIT License
 # 
-# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM)
+# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -90,7 +90,6 @@ topology:
     nssf:
       kind: linux
       image: giros-dit/open5gs:latest
-        - export DB_URI=mongodb://10.254.1.100/open5gs
       exec:
         - ifconfig eth1 10.254.1.5 netmask 255.255.255.0
         - touch /var/log/open5gs/nssf.log
@@ -143,7 +142,6 @@ topology:
       exec:
         - ifconfig eth1 10.200.1.1 netmask 255.255.255.0
         - ifconfig eth2 10.240.1.2 netmask 255.255.255.0
-        - ifconfig eth3 192.168.122.95 netmask 255.255.255.0
         - touch /var/log/open5gs/upf.log
     
     # Open5GS WebUI:
