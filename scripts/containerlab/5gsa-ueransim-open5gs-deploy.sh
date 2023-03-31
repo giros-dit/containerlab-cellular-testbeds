@@ -22,18 +22,33 @@ sudo docker cp ../../conf/open5gs/smf.yaml clab-5gsa-ueransim-open5gs-smf:/
 sudo docker exec -td clab-5gsa-ueransim-open5gs-smf /open5gs/install/bin/open5gs-smfd -c /smf.yaml
 
 sudo docker cp ../../conf/open5gs/upf.yaml clab-5gsa-ueransim-open5gs-upf:/
+
 sudo docker exec clab-5gsa-ueransim-open5gs-upf dhclient eth3
 sudo docker exec clab-5gsa-ueransim-open5gs-upf ip route del default
 sudo docker exec clab-5gsa-ueransim-open5gs-upf ip route add default via 192.168.122.1 dev eth3
-sudo docker exec clab-5gsa-ueransim-open5gs-upf sysctl -w net.ipv4.ip_forward=1
-sudo docker exec clab-5gsa-ueransim-open5gs-upf sysctl -w net.ipv6.conf.all.forwarding=1
+
 sudo docker exec clab-5gsa-ueransim-open5gs-upf ip tuntap add name ogstun mode tun
 sudo docker exec clab-5gsa-ueransim-open5gs-upf ip addr add 10.45.0.1/16 dev ogstun
-sudo docker exec clab-5gsa-ueransim-open5gs-upf ip addr add 2001:db8:cafe::1/48 dev ogstun
 sudo docker exec clab-5gsa-ueransim-open5gs-upf ip link set ogstun up
-sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE
-sudo docker exec clab-5gsa-ueransim-open5gs-upf ip6tables -t nat -A POSTROUTING -s 2001:db8:cafe::/48 ! -o ogstun -j MASQUERADE
+
 sudo docker exec -td clab-5gsa-ueransim-open5gs-upf /open5gs/install/bin/open5gs-upfd -c /upf.yaml
+
+sudo docker exec clab-5gsa-ueransim-open5gs-upf sysctl -w net.ipv4.ip_forward=1
+sudo docker exec clab-5gsa-ueransim-open5gs-upf sysctl -w net.ipv6.conf.all.forwarding=1
+
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -P INPUT ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -P FORWARD ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -P OUTPUT ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -A INPUT -i ogstun -s 10.45.0.0/16 -j ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -A FORWARD -i ogstun -o eth3 -j ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -A FORWARD -i eth3 -o ogstun -j ACCEPT
+
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -P PREROUTING ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -P INPUT ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -P OUTPUT ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -P POSTROUTING ACCEPT
+sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -A POSTROUTING -o eth3 -j MASQUERADE
+#sudo docker exec clab-5gsa-ueransim-open5gs-upf iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE
 
 sudo docker cp ../../conf/open5gs/ausf.yaml clab-5gsa-ueransim-open5gs-ausf:/
 sudo docker exec -td clab-5gsa-ueransim-open5gs-ausf /open5gs/install/bin/open5gs-ausfd -c /ausf.yaml
