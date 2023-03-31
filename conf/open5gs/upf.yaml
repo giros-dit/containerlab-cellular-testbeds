@@ -196,9 +196,9 @@ logger:
 #
 upf:
     pfcp:
-      - addr: 10.240.1.2
+      - addr: 10.100.1.3
     gtpu:
-      - addr: 10.240.1.2
+      - addr: 10.100.1.3
     subnet:
       - addr: 10.45.0.1/16
         dev: ogstun
@@ -217,7 +217,7 @@ upf:
 #
 smf:
   pfcp:
-    addr: 10.240.1.1
+    addr: 10.100.1.2
 
 #
 #  o Number of output streams per SCTP associations.

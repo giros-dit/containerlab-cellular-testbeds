@@ -41,8 +41,7 @@ topology:
       image: giros-dit/ueransim:latest
       exec:
         - ifconfig eth1 10.1.1.10 netmask 255.255.255.0
-        - ifconfig eth2 10.100.1.2 netmask 255.255.255.0
-        - ifconfig eth3 10.200.1.2 netmask 255.255.255.0
+        - ifconfig eth2 10.100.1.4 netmask 255.255.255.0
     
     ### 5G Core Elements (Open5GS) ###
 
@@ -115,7 +114,7 @@ topology:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        - ifconfig eth1 10.240.1.1 netmask 255.255.255.0
+        - ifconfig eth1 10.100.1.2 netmask 255.255.255.0
         - ifconfig eth2 10.254.1.8 netmask 255.255.255.0
         - touch /var/log/open5gs/smf.log
 
@@ -140,8 +139,7 @@ topology:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        - ifconfig eth1 10.200.1.1 netmask 255.255.255.0
-        - ifconfig eth2 10.240.1.2 netmask 255.255.255.0
+        - ifconfig eth1 10.100.1.3 netmask 255.255.255.0
         - touch /var/log/open5gs/upf.log
     
     # Open5GS WebUI:
@@ -150,6 +148,11 @@ topology:
       image: giros-dit/open5gs:latest
       exec:
         - ifconfig eth1 10.254.1.200 netmask 255.255.255.0
+    
+    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
+    # NOTE: This bridge must be created before deploying the topology.
+    br-n2-n3-n4:
+      kind: ovs-bridge
     
     # Open5GS 5G Core Service Based Interface (SBI) is implemented as an Open vSwitch bridge (br-sbi).
     # NOTE: This bridge must be created before deploying the topology.
@@ -167,34 +170,33 @@ topology:
   links:
     # NR-Uu Interface:
     - endpoints: ["ue:eth1", "gnb:eth1"]
-    # N2 Interface:
-    - endpoints: ["gnb:eth2", "amf:eth1"]
-    # N3 Interface:
-    - endpoints: ["gnb:eth3", "upf:eth1"]
-    # N4 Interfaces (N4, N4u):
-    - endpoints: ["smf:eth1", "upf:eth2"]
+    # N2, N3 and N4 (N4 and N4u) Interfaces:
+    - endpoints: ["gnb:eth2", "br-n2-n3-n4:gnb-n2-n3"]
+    - endpoints: ["amf:eth1", "br-n2-n3-n4:amf-n2"]
+    - endpoints: ["smf:eth1", "br-n2-n3-n4:smf-n4"]
+    - endpoints: ["upf:eth1", "br-n2-n3-n4:upf-n3-n4"]
     # N6 Interface:
-    - endpoints: ["upf:eth3", "virbr0:upf"]
+    - endpoints: ["upf:eth2", "virbr0:upf-n6"]
     # AMF-SBI (N8, N11, N12 and N15 Interfaces):
-    - endpoints: ["amf:eth2", "br-sbi:amf"]
+    - endpoints: ["amf:eth2", "br-sbi:amf-sbi"]
     # SMF-SBI (N7, N10 and N11 Interfaces):
-    - endpoints: ["smf:eth2", "br-sbi:smf"]
+    - endpoints: ["smf:eth2", "br-sbi:smf-sbi"]
     # PCF-SBI (N7, N15 and N36 Interfaces):
-    - endpoints: ["pcf:eth1", "br-sbi:pcf"]
+    - endpoints: ["pcf:eth1", "br-sbi:pcf-sbi"]
     # UDR-SBI (N35 and N36 Interfaces):
-    - endpoints: ["udr:eth1", "br-sbi:udr"]
+    - endpoints: ["udr:eth1", "br-sbi:udr-sbi"]
     # UDM-SBI (N8, N10, N13 and N35 Interfaces):
-    - endpoints: ["udm:eth1", "br-sbi:udm"]
+    - endpoints: ["udm:eth1", "br-sbi:udm-sbi"]
     # AUSF-SBI (N12 and N13 Interfaces):
-    - endpoints: ["ausf:eth1", "br-sbi:ausf"]
+    - endpoints: ["ausf:eth1", "br-sbi:ausf-sbi"]
     # NRF-SBI:
-    - endpoints: ["nrf:eth1", "br-sbi:nrf"]
+    - endpoints: ["nrf:eth1", "br-sbi:nrf-sbi"]
     # NSSF-SBI:
-    - endpoints: ["nssf:eth1", "br-sbi:nssf"]
+    - endpoints: ["nssf:eth1", "br-sbi:nssf-sbi"]
     # BSF-SBI:
-    - endpoints: ["bsf:eth1", "br-sbi:bsf"]
+    - endpoints: ["bsf:eth1", "br-sbi:bsf-sbi"]
     # SCP-SBI:
-    - endpoints: ["scp:eth1", "br-sbi:scp"]
+    - endpoints: ["scp:eth1", "br-sbi:scp-sbi"]
     # MongoDB Interface with Open5GS components:
     - endpoints: ["mongodb:eth1", "br-sbi:mongodb"]
     # Open5GS WebUI Interface with other components:
