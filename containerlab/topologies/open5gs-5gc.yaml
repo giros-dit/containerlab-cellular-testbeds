@@ -162,7 +162,7 @@ topology:
         # Enabling IPv4 forwarding:
         - sysctl -w net.ipv4.ip_forward=1
         # Creating NAT rule for UEs to have Internet connectivity:
-        - iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE 
+        - iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE
     
     # Open5GS WebUI:
     webui:

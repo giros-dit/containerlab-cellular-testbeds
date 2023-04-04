@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # MIT License
 # 
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
@@ -20,40 +22,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-### Containerlab topology for UERANSIM: 1 gNB + 1 UE ###
-name: ueransim
+echo 'Starting UERANSIM UE (in foreground)...'
 
-### Topology nodes (entities/elements) ###
-topology:
-  nodes:
-    ### RAN Elements (UERANSIM) ###
+echo ''
+echo ''
 
-    # UE (User Equipment):
-    ue:
-      kind: linux
-      image: giros-dit/ueransim:latest
-      exec:
-        # Uu Interface with gNB (simulated RAN):
-        - ifconfig eth1 10.1.1.20 netmask 255.255.255.0
-    
-    # gNB (gNodeB):
-    gnb:
-      kind: linux
-      image: giros-dit/ueransim:latest
-      exec:
-        # NR-Uu Interface with UE (simulated RAN):
-        - ifconfig eth1 10.1.1.10 netmask 255.255.255.0
-        # N2 (with AMF) and N3 (with UPF) Interfaces with 5G Core:
-        - ifconfig eth2 10.100.1.4 netmask 255.255.255.0
-    
-    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
-    # NOTE: This bridge must be created before deploying the topology.
-    br-n2-n3-n4:
-      kind: ovs-bridge
+sudo docker exec -it clab-ueransim-ue /UERANSIM/build/nr-ue -c /ue.yaml
 
-  ### Links between entities (Interfaces) ###
-  links:
-    # NR-Uu Interface:
-    - endpoints: ["ue:eth1", "gnb:eth1"]
-    # N2 and N3 Interfaces:
-    - endpoints: ["gnb:eth2", "br-n2-n3-n4:gnb-n2-n3"]
+echo ''
+echo ''
+
+echo 'UE execution finished!'
+
+echo ''
+echo ''

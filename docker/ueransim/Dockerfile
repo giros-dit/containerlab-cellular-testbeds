@@ -47,7 +47,7 @@ RUN ./bootstrap && make && make install
 
 # Clone and build UERANSIM from its GitHub repository.
 WORKDIR /
-RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j
+RUN git clone https://github.com/aligungr/UERANSIM.git && cd UERANSIM && make -j && chmod +x build/nr-binder
 
 WORKDIR /
 

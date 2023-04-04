@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # MIT License
 # 
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
@@ -20,24 +22,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Dockerfile for MongoDB container.
+echo 'Starting UERANSIM gNB (in foreground)...'
 
-# The base image is Ubuntu 20.04 LTS ("focal").
-FROM ubuntu:focal
+echo ''
+echo ''
 
-# Variables to automatically install/update tzdata.
-ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Madrid
+sudo docker exec -it clab-ueransim-gnb /UERANSIM/build/nr-gnb -c /gnb.yaml
 
-# Update base image with new packages.
-RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
+echo ''
+echo ''
 
-# Install some basic tools and dependencies.
-RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
-    openssh-server tcpdump unzip subversion git curl wget gnupg
+echo 'gNB execution finished!'
 
-# Install MongoDB and Open5GS's open5gs-dbctl tool.
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
-RUN echo "deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-RUN apt update && apt install -y mongodb-org
-RUN wget https://raw.githubusercontent.com/open5gs/open5gs/main/misc/db/open5gs-dbctl && chmod +x open5gs-dbctl
+echo ''
+echo ''

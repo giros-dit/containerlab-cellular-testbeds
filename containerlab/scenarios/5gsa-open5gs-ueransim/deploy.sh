@@ -31,42 +31,58 @@ sudo containerlab deploy --topo ../../topologies/open5gs-5gc.yaml
 sudo containerlab deploy --topo ../../topologies/ueransim.yaml
 
 sudo docker cp conf/ueransim/gnb.yaml clab-ueransim-gnb:/
+sudo docker exec -td clab-ueransim-gnb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 sudo docker cp conf/ueransim/ue.yaml clab-ueransim-ue:/
+sudo docker exec -td clab-ueransim-ue /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker exec -td clab-open5gs-5gc-mongodb mongod --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongodb.log --bind_ip 0.0.0.0
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/nrf.yaml clab-open5gs-5gc-nrf:/
 sudo docker exec -td clab-open5gs-5gc-nrf /open5gs/install/bin/open5gs-nrfd -c /nrf.yaml
+sudo docker exec -td clab-open5gs-5gc-nrf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/scp.yaml clab-open5gs-5gc-scp:/
 sudo docker exec -td clab-open5gs-5gc-scp /open5gs/install/bin/open5gs-scpd -c /scp.yaml
+sudo docker exec -td clab-open5gs-5gc-scp /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/amf.yaml clab-open5gs-5gc-amf:/
 sudo docker exec -td clab-open5gs-5gc-amf /open5gs/install/bin/open5gs-amfd -c /amf.yaml
+sudo docker exec -td clab-open5gs-5gc-amf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/smf.yaml clab-open5gs-5gc-smf:/
 sudo docker exec -td clab-open5gs-5gc-smf /open5gs/install/bin/open5gs-smfd -c /smf.yaml
+sudo docker exec -td clab-open5gs-5gc-smf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/upf.yaml clab-open5gs-5gc-upf:/
 sudo docker exec -td clab-open5gs-5gc-upf /open5gs/install/bin/open5gs-upfd -c /upf.yaml
+sudo docker exec -td clab-open5gs-5gc-upf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/ausf.yaml clab-open5gs-5gc-ausf:/
 sudo docker exec -td clab-open5gs-5gc-ausf /open5gs/install/bin/open5gs-ausfd -c /ausf.yaml
+sudo docker exec -td clab-open5gs-5gc-ausf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/udm.yaml clab-open5gs-5gc-udm:/
 sudo docker exec -td clab-open5gs-5gc-udm /open5gs/install/bin/open5gs-udmd -c /udm.yaml
+sudo docker exec -td clab-open5gs-5gc-udm /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/pcf.yaml clab-open5gs-5gc-pcf:/
 sudo docker exec -td clab-open5gs-5gc-pcf /open5gs/install/bin/open5gs-pcfd -c /pcf.yaml
+sudo docker exec -td clab-open5gs-5gc-pcf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/nssf.yaml clab-open5gs-5gc-nssf:/
 sudo docker exec -td clab-open5gs-5gc-nssf /open5gs/install/bin/open5gs-nssfd -c /nssf.yaml
+sudo docker exec -td clab-open5gs-5gc-nssf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/bsf.yaml clab-open5gs-5gc-bsf:/
 sudo docker exec -td clab-open5gs-5gc-bsf /open5gs/install/bin/open5gs-bsfd -c /bsf.yaml
+sudo docker exec -td clab-open5gs-5gc-bsf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 sudo docker cp conf/open5gs/udr.yaml clab-open5gs-5gc-udr:/
 sudo docker exec -td clab-open5gs-5gc-udr /open5gs/install/bin/open5gs-udrd -c /udr.yaml
+sudo docker exec -td clab-open5gs-5gc-udr /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
-# Credentials: admin/1423
+# Web UI credentials: admin/1423
 sudo docker exec -td clab-open5gs-5gc-webui /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /open5gs/webui'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000001 1'
