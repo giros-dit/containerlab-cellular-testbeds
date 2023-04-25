@@ -32,7 +32,7 @@ sudo docker exec -it clab-ueransim-ue /UERANSIM/build/nr-ue -c /ue.yaml
 echo ''
 echo ''
 
-echo 'UE execution finished!'
+echo 'Interrupt signal detected - UE execution finished.'
 
 echo ''
 echo ''

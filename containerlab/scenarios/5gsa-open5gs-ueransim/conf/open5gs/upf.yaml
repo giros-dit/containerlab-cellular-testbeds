@@ -200,9 +200,12 @@ upf:
     gtpu:
       - addr: 10.100.1.3
     subnet:
-      - addr: 10.45.0.1/16
+      - addr: 172.45.1.1/24
         dev: ogstun
         dnn: internet
+      - addr: 172.45.2.1/24
+        dev: imstun
+        dnn: ims      
     metrics:
       - addr: 127.0.0.7
         port: 9090

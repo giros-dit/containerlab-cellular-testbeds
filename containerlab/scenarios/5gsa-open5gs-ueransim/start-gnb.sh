@@ -32,7 +32,7 @@ sudo docker exec -it clab-ueransim-gnb /UERANSIM/build/nr-gnb -c /gnb.yaml
 echo ''
 echo ''
 
-echo 'gNB execution finished!'
+echo 'Interrupt signal detected - gNB execution finished.'
 
 echo ''
 echo ''
