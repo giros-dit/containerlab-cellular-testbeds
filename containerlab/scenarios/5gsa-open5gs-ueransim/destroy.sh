@@ -38,7 +38,7 @@ sudo containerlab destroy --topo ../../topologies/open5gs-5gc.yaml
 sudo rm -Rf clab-open5gs-5gc/
 sudo rm ../../topologies/.open5gs-5gc.yaml.bak
 
-echo 'Done!'
+echo 'Done.'
 
 echo ''
 echo ''
@@ -49,7 +49,7 @@ sudo containerlab destroy --topo ../../topologies/ueransim.yaml
 sudo rm -Rf clab-ueransim/
 sudo rm ../../topologies/.ueransim.yaml.bak
 
-echo 'Done!'
+echo 'Done.'
 
 echo ''
 echo ''
@@ -59,12 +59,9 @@ echo '3.- Deleting Open vSwitch bridges...'
 sudo ovs-vsctl del-br br-sbi
 sudo ovs-vsctl del-br br-n2-n3-n4
 
-echo 'Done!'
+echo 'Done.'
 
 echo ''
 echo ''
 
-echo 'All done! Scenario fully destroyed.'
-
-echo ''
-echo ''
+echo 'All done. Scenario fully destroyed.'

@@ -37,7 +37,7 @@ RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute ip
     xauth openssh-server tcpdump unzip subversion git curl wget gnupg python3-pip python3-setuptools \
     python3-wheel ninja-build build-essential flex bison cmake libsctp-dev libgnutls28-dev \
     libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev libyaml-dev libnghttp2-dev \
-    libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev libtins-dev libtalloc-dev meson firefox
+    libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev libtins-dev libtalloc-dev meson
 
 # Install NodeJS.
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
