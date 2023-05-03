@@ -1,8 +1,17 @@
 # Containerized testbeds for cellular mobile communications networks
 
+<table align="center">
+	<tr>
+		<td><img src="resources/images/clab-logo.png"></td>
+		<td><img src="resources/images/vnx-logo.png"></td>
+	</tr>
+</table>
+
+__All images and logos are property of their respective owners.__ 
+
 ## _Containerlab_ scenarios
 
-### Step 1: Building Docker images.
+### 1.- Building Docker images.
 
 You need to build the Docker images of all containers. Follow the following steps (assuming you have a terminal opened at this project's root directory):
 
@@ -20,27 +29,21 @@ $ cd docker/mongodb/
 $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 ```
 
-### Step 2: Using the provided topologies to build scenarios.
+### 2.- Deploy testing scenarios.
 
-In the `containerlab/topologies/` directory there are some `.yaml` files that you can use to define custom scenarios for your testing purposes. The current list of available topologies is the following:
+In the `containerlab` directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
 
-- `open5gs-5gc.yaml`: Open5GS 5G Core for Standalone (SA) deployments.
-- `ueransim.yaml`: UERANSIM with 1 gNB and 1 UE for 5G Standalone (SA) deployments.
+- A `README` file with information and instructions about the scenario.
+- A `conf` subdirectory with configuration files for each container that composes the scenario.
+- A `topologies` subdirectory with _Containerlab_ topology definition files for the scenario.
+- A `scripts` subdirectory with shell scripts for deploying/destroying/interacting with the scenario.
 
-You can modify these topologies freely.
+The number of available scenarios may increase with newer/different ones.
 
-### Step 3: Using the provided scripts to deploy testing scenarios.
-
-In the `containerlab/scenarios/` directory you can find several subdirectories with ready to use scenarios. Here is a list of the current ones available:
-
-- `5gsa-open5gs-ueransim`. 5G Standalone (SA) scenario with Open5GS 5G Core and UERANSIM with 1 gNB + 1 UE.
-
-Every subdirectory may contain several scripts to deploy and destroy the scenario, and to perform other operations. Please, check these out for more information and context.
-
-### Step 4: Capturing traffic with Wireshark.
+### 3.- Capturing traffic with Wireshark.
 
 This command serves as a template to capture traffic with Wireshark in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-iface>` with the desired network interface inside the container.
-The name of the container can be obtained right after deploying the topology.
+The name of the container can be obtained right after deploying the topology. You must have Wireshark installed on your machine.
 
 ```
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-iface> -w - | wireshark -k -i -

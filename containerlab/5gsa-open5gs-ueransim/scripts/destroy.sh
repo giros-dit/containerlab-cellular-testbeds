@@ -34,9 +34,9 @@ echo ''
 
 echo '1.- Destroying Open5GS 5G Core topology...'
 
-sudo containerlab destroy --topo ../../topologies/open5gs-5gc.yaml
+sudo containerlab destroy --topo ../topologies/open5gs-5gc.yaml
 sudo rm -Rf clab-open5gs-5gc/
-sudo rm ../../topologies/.open5gs-5gc.yaml.bak
+sudo rm ../topologies/.open5gs-5gc.yaml.bak
 
 echo 'Done.'
 
@@ -45,9 +45,9 @@ echo ''
 
 echo '2.- Destroying UERANSIM (1 gNB + 1 UE) topology...'
 
-sudo containerlab destroy --topo ../../topologies/ueransim.yaml
+sudo containerlab destroy --topo ../topologies/ueransim.yaml
 sudo rm -Rf clab-ueransim/
-sudo rm ../../topologies/.ueransim.yaml.bak
+sudo rm ../topologies/.ueransim.yaml.bak
 
 echo 'Done.'
 
