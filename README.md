@@ -7,7 +7,10 @@
 	</tr>
 </table>
 
-<p align="center"><i>All images and logos are property of their respective owners.</i></p>
+<p align="center">
+	<i>All images and logos are property of their respective owners.</i>
+	<i>Click over any logo to open their respective official webpages for further information and installation/operation instructions.</i>
+</p>
 
 ## _Containerlab_ scenarios
 
