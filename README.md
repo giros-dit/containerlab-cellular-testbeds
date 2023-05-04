@@ -7,10 +7,20 @@
 	</tr>
 </table>
 
-<p align="center">
-	<i>All images and logos are property of their respective owners.</i><br>
-	<i>Click over any logo to open their respective official webpages for further information and installation/operation instructions.</i>
-</p>
+## Featured implementations
+This repository features the following software/implementations to provide testbed scenarios for cellular mobile communications networks (LTE/4G/5G):
+
+<table align="left">
+	<tr>
+		<td><a href="https://open5gs.org"><img src="resources/images/open5gs-logo.png"></a></td>
+		<td>Open source 3GPP Rel-17 compliant implementation of 4G/LTE EPC (Evolved Packet Core) and 5G Core</td>
+	</tr>
+	<tr>
+		<td><a href="https://github.com/aligungr/UERANSIM"><img src="resources/images/ueransim-logo.png"></a></td>
+		<td>Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and RAN-gNB (Radio Access Network-gNodeB) simulation</td>
+	</tr>
+</table>
+
 
 ## _Containerlab_ scenarios
 
@@ -52,3 +62,9 @@ The name of the container can be obtained right after deploying the topology. Yo
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-iface> -w - | wireshark -k -i -
 ```
 
+## Disclaimer
+_All images and logos are property of their respective owners._
+
+_Click over any logo to open their official webpages for further information and installation/operation instructions._
+
+Special thanks to every developer and contributor that made any featured implementation possible.
