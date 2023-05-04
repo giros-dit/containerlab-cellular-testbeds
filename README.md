@@ -8,7 +8,7 @@
 </table>
 
 <p align="center">
-	<i>All images and logos are property of their respective owners.</i>
+	<i>All images and logos are property of their respective owners.</i><br>
 	<i>Click over any logo to open their respective official webpages for further information and installation/operation instructions.</i>
 </p>
 
