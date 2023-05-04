@@ -2,8 +2,8 @@
 
 <table align="center">
 	<tr>
-		<td><img src="resources/images/containerlab-logo.png"></td>
-		<td><img src="resources/images/vnx-logo.png"></td>
+		<td><a href="https://containerlab.dev/"><img src="resources/images/containerlab-logo.png"></a></td>
+		<td><a href="http://web.dit.upm.es/vnxwiki/index.php/Main_Page"><img src="resources/images/vnx-logo.png"></a></td>
 	</tr>
 </table>
 
