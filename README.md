@@ -13,11 +13,11 @@ This repository features the following software/implementations to provide testb
 <table align="left">
 	<tr>
 		<td><a href="https://open5gs.org"><img src="resources/images/open5gs-logo.png"></a></td>
-		<td>Open source 3GPP Rel-17 compliant implementation of 4G/LTE EPC (Evolved Packet Core) and 5G Core</td>
+		<td>Open source 3GPP Rel-17 compliant implementation of 4G-LTE EPC (Evolved Packet Core) and 5G Core.</td>
 	</tr>
 	<tr>
 		<td><a href="https://github.com/aligungr/UERANSIM"><img src="resources/images/ueransim-logo.png"></a></td>
-		<td>Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and RAN-gNB (Radio Access Network-gNodeB) simulation</td>
+		<td>Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and RAN (Radio Access Network) gNB simulation.</td>
 	</tr>
 </table>
 
@@ -37,7 +37,7 @@ $ sudo docker build --no-cache -t giros-dit/ueransim:latest .
 $ cd docker/open5gs/
 $ sudo docker build --no-cache -t giros-dit/open5gs:latest .
 
-# For MongoDB container (subscriber database for Open5GS topologies):
+# For MongoDB container (Open5GS subscriber database):
 $ cd docker/mongodb/
 $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 ```
@@ -62,7 +62,7 @@ The name of the container can be obtained right after deploying the topology. Yo
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-iface> -w - | wireshark -k -i -
 ```
 
-## Disclaimer
+## Disclaimer and acknowledgements
 _All images and logos are property of their respective owners._
 
 _Click over any logo to open their official webpages for further information and installation/operation instructions._
