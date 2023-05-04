@@ -7,7 +7,7 @@
 	</tr>
 </table>
 
-<p align="center">_All images and logos are property of their respective owners._</p>
+<p align="center"><i>All images and logos are property of their respective owners.</i></p>
 
 ## _Containerlab_ scenarios
 
