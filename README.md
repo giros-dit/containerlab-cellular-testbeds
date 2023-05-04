@@ -2,12 +2,12 @@
 
 <table align="center">
 	<tr>
-		<td><img src="resources/images/clab-logo.png"></td>
+		<td><img src="resources/images/containerlab-logo.png"></td>
 		<td><img src="resources/images/vnx-logo.png"></td>
 	</tr>
 </table>
 
-__All images and logos are property of their respective owners.__ 
+_All images and logos are property of their respective owners._
 
 ## _Containerlab_ scenarios
 
