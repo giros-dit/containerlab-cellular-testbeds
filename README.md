@@ -37,10 +37,11 @@ In order to run the scenarios, you need to have the following:
 	</tr>
 </table>
 
+## General instructions
 
-## Containerlab scenarios
+### Containerlab scenarios
 
-### 1.- Building Docker images
+#### 1.- Building Docker images
 
 You need to build the Docker images of all containers. Follow the following steps (assuming you have a terminal opened at this project's root directory):
 
@@ -58,7 +59,7 @@ $ cd docker/mongodb/
 $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 ```
 
-### 2.- Deploy testing scenarios
+#### 2.- Deploy testing scenarios
 
 In the `containerlab` directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
 
@@ -69,7 +70,7 @@ In the `containerlab` directory there are several subdirectories with different 
 
 The number of available scenarios may increase with newer/different ones.
 
-### 3.- Capturing traffic with Wireshark
+#### 3.- Capturing traffic with Wireshark
 
 This command serves as a template to capture traffic with Wireshark in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-iface>` with the desired network interface inside the container.
 The name of the container can be obtained right after deploying the topology. You must have Wireshark installed on your machine.
@@ -78,7 +79,7 @@ The name of the container can be obtained right after deploying the topology. Yo
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-iface> -w - | wireshark -k -i -
 ```
 
-### SSH access to containers
+#### SSH access to containers
 
 You can SSH to the containers deployed in any scenario with the following set of credentials:
 - Username: `root` - Password: `gprsumts`.
