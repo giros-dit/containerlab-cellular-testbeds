@@ -77,7 +77,7 @@ The number of available scenarios may increase with newer/different ones.
 #### 3.- Capturing traffic with Wireshark
 
 This command serves as a template to capture traffic with Wireshark in any container. You just need to replace `<clab-container-name>` with the desired Containerlab container name and `<container-iface>` with the desired network interface inside the container.
-The name of the container can be obtained right after deploying the topology. You must have Wireshark installed on your machine.
+The name of the container can be obtained right after deploying the topology.
 
 ```
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-iface> -w - | wireshark -k -i -
