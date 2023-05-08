@@ -9,7 +9,11 @@
 
 ## About
 
-This repository provides testbed scenarios for cellular mobile communications networks.
+The main goal of this repository is to provide testbed scenarios for cellular mobile communications networks (e.g., LTE/4G/5G) using containerization tools (Docker and Linux Containers).
+
+While Docker provides Docker Compose for defining and deploying complex, multi-container scenarios, the networking part of it (inter-container connectivity) is arguably still a little bit complicated. Therefore, it's interesting to use other tools that simplify this task, so here's where Containerlab comes into play. For LXC containers we face similar challenges, and VNX (Virtual Networks over linuX) provides a similar solution. Both tools provide an easy way to define network topologies and scenarios, using standard definition languages (YAML for Containerlab and XML for VNX). And by leveraging existent Linux bridging and switching software, such as Open vSwitch, we can use them to define custom, modular scenarios that can be interconnected in a handful of different ways.
+
+The idea is to provide different testbed scenarios that you can use to deploy and test complete cellular networks. The core network is provided using containerized topologies, and the RAN can be either deployed using any simulated or _physical_ implementations of your choice. The scenarios can be interconnected, so it's possible to, for example, add an IMS and provide VoLTE, or extend the networks any way you may imagine.
 
 ### Requisites
 
@@ -61,7 +65,7 @@ $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 
 #### 2.- Deploy testing scenarios
 
-In the `containerlab` directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
+In the ![`containerlab`](containerlab) directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
 
 - A `README` file with information and instructions about the scenario.
 - A `conf` subdirectory with configuration files for each container that composes the scenario.
