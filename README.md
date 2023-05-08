@@ -19,10 +19,10 @@ In order to run the scenarios, you need to have the following:
 	- Since the core functionality of the scenarios runs on Docker and LXC containers, any Linux distribution can be used. However, for maximum compatibility of libraries and dependencies we have used Ubuntu 20.04 LTS. You may want to use this or a newer version. Nevertheless, if you prefer another distribution, feel free to use it, but notice that the installation instructions for any library and dependency will vary.
 	- If you only plan to run the Containerlab testbed scenarios and you use Windows 10 or 11, WSL2 may work, but bear in mind that we haven't tested it.
 - If you want to run the Containerlab testbed scenarios, you need to install it accordingly. You can find the installation instructions along with more documentation at this link: https://containerlab.dev/install/. These scenarios are based on Docker containers, so you must have Docker installed on your machine.
-- If you want to run the VNX scenarios, you need to install it accordingly. The installation instructions can be found at this link: http://web.dit.upm.es/vnxwiki/index.php/Vnx-install. VNX has further requirements that you can check at that link.
+- If you want to run the VNX scenarios, you need to install it accordingly. The installation instructions can be found at this link: http://web.dit.upm.es/vnxwiki/index.php/Vnx-install. VNX has further requirements that you can also check at that link.
 - Some inter-container connectivity relies on Open vSwitch bridges, so you must install it as well. If you installed VNX, Open vSwitch comes as a dependency of it.
 - The connectivity between some Containerlab topologies and between scenarios and the Internet is done via the `virbr0` bridge provided by the `libvirt` library, so you must install it. If you installed VNX, `libvirt` comes as a dependency of it.
-- For traffic capturing, you may need to have Wireshark installed on your system (you may want to add your Linux user to the `wireshark` group for an easier execution).
+- For traffic capturing, you need to have Wireshark installed on your system.
 
 ### Featured implementations
 
@@ -72,7 +72,7 @@ The number of available scenarios may increase with newer/different ones.
 
 #### 3.- Capturing traffic with Wireshark
 
-This command serves as a template to capture traffic with Wireshark in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-iface>` with the desired network interface inside the container.
+This command serves as a template to capture traffic with Wireshark in any container. You just need to replace `<clab-container-name>` with the desired Containerlab container name and `<container-iface>` with the desired network interface inside the container.
 The name of the container can be obtained right after deploying the topology. You must have Wireshark installed on your machine.
 
 ```
