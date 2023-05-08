@@ -65,7 +65,7 @@ $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 
 #### 2.- Deploy testing scenarios
 
-In the !`[containerlab]`(containerlab) directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
+In the ![`containerlab`](containerlab) directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
 
 - A `README` file with information and instructions about the scenario.
 - A `conf` subdirectory with configuration files for each container that composes the scenario.
