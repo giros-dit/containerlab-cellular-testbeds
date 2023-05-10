@@ -613,9 +613,6 @@ smf:
       - addr: 172.45.1.1/24
         dev: ogstun
         dnn: internet
-      - addr: 172.45.2.1/24
-        dev: imstun
-        dnn: ims
     dns:
       - 8.8.8.8
       - 8.8.4.4

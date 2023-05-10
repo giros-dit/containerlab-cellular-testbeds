@@ -202,10 +202,7 @@ upf:
     subnet:
       - addr: 172.45.1.1/24
         dev: ogstun
-        dnn: internet
-      - addr: 172.45.2.1/24
-        dev: imstun
-        dnn: ims      
+        dnn: internet      
     metrics:
       - addr: 127.0.0.7
         port: 9090

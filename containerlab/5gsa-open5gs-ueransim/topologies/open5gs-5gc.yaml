@@ -155,18 +155,14 @@ topology:
         # Configuring default route to use N6 Interface:
         - ip route del default
         - ip route add default via 192.168.122.1 dev eth2
-        # Configuring TUN interfaces for Open5GS - Internet traffic (internet APN) and IMS traffic (ims APN):
+        # Configuring TUN interfaces for Open5GS - Internet traffic (internet APN):
         - ip tuntap add name ogstun mode tun
-        - ip tuntap add name imstun mode tun
         - ip addr add 172.45.1.1/24 dev ogstun
-        - ip addr add 172.45.2.1/24 dev imstun
         - ip link set ogstun up
-        - ip link set imstun up
         # Enabling IPv4 forwarding:
         - sysctl -w net.ipv4.ip_forward=1
         # Creating NAT rule for UEs to have connectivity:
         - iptables -t nat -A POSTROUTING -s 172.45.1.0/24 ! -o ogstun -j MASQUERADE
-        - iptables -t nat -A POSTROUTING -s 172.45.2.0/24 ! -o imstun -j MASQUERADE
     
     # Open5GS WebUI:
     webui:
