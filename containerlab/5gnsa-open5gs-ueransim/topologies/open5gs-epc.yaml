@@ -36,7 +36,7 @@ topology:
         # S6a Interface with MME:
         - ifconfig eth1 10.100.1.1 netmask 255.255.255.0
         # Interface with MongoDB:
-        - ifconfig eth2 10.101.1.1 netmask 255.255.255.0
+        - ifconfig eth2 10.101.1.2 netmask 255.255.255.0
         # Logging file:
         - touch /var/log/open5gs/hss.log
     
@@ -62,7 +62,7 @@ topology:
         # Gx Interface with SMF [PGW-c]:
         - ifconfig eth1 10.103.1.1 netmask 255.255.255.0
         # Interface with MongoDB:
-        - ifconfig eth2 10.101.1.2 netmask 255.255.255.0
+        - ifconfig eth2 10.101.1.3 netmask 255.255.255.0
         # Logging file:
         - touch /var/log/open5gs/pcrf.log
 
@@ -71,56 +71,71 @@ topology:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        # SBI Interface:
-        - ifconfig eth1 10.254.1.3 netmask 255.255.255.0
+        # Gx Interface with PCRF:
+        - ifconfig eth1 10.103.1.2 netmask 255.255.255.0
+        # S5c Interface with SGW-c:
+        - ifconfig eth2 10.104.1.2 netmask 255.255.255.0
+        # Sxb and Sxu Interfaces with PGW-u:
+        - ifconfig eth3 10.105.1.1 netmask 255.255.255.0
         # Logging file:
-        - touch /var/log/open5gs/bsf.log
+        - touch /var/log/open5gs/smf.log
 
     # UPF [PGW-u] (User Plane Function -- Packet Data Network Gateway/user plane):
     pgw-u:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        # SBI Interface:
-        - ifconfig eth1 10.254.1.3 netmask 255.255.255.0
+        # Sxb and Sxu Interfaces with PGW-c:
+        - ifconfig eth1 10.105.1.2 netmask 255.255.255.0
+        # S5u Interface with SGW-u:
+        - ifconfig eth2 10.106.1.2 netmask 255.255.255.0
+        # TO-DO: SGi Interface and other configurations.
         # Logging file:
-        - touch /var/log/open5gs/bsf.log
+        - touch /var/log/open5gs/upf.log
 
     # SGW-c (Serving Gateway/control plane):
     sgw-c:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        # SBI Interface:
-        - ifconfig eth1 10.254.1.3 netmask 255.255.255.0
+        # S11 Interface with MME:
+        - ifconfig eth1 10.102.1.2 netmask 255.255.255.0
+        # S5c Interface with PGW-c:
+        - ifconfig eth2 10.104.1.1 netmask 255.255.255.0
+        # Sxa Interface with SGW-u:
+        - ifconfig eth3 10.107.1.1 netmask 255.255.255.0
         # Logging file:
-        - touch /var/log/open5gs/bsf.log
+        - touch /var/log/open5gs/sgwc.log
 
     # SGW-u (Serving Gateway/user plane):
     sgw-u:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        # SBI Interface:
-        - ifconfig eth1 10.254.1.3 netmask 255.255.255.0
+        # S5u Interface with PGW-u:
+        - ifconfig eth1 10.106.1.1 netmask 255.255.255.0
+        # Sxa Interface with SGW-c:
+        - ifconfig eth2 10.107.1.2 netmask 255.255.255.0
+        # S1-U Interface:
+        - ifconfig eth3 10.254.1.10 netmask 255.255.255.0
         # Logging file:
-        - touch /var/log/open5gs/bsf.log
+        - touch /var/log/open5gs/sgwu.log
 
     # MongoDB:
     mongodb:
       kind: linux
       image: giros-dit/mongodb:latest
       exec:
-        # Interface with other Open5GS containers:
-        - ifconfig eth1 10.254.1.100 netmask 255.255.255.0
+        # Interface with HSS and PCRF:
+        - ifconfig eth1 10.101.1.1 netmask 255.255.255.0
     
     # Open5GS WebUI:
     webui:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
-        # Interface with other Open5GS containers:
-        - ifconfig eth1 10.254.1.200 netmask 255.255.255.0
+        # Interface with MongoDB:
+        - ifconfig eth1 10.101.1.4 netmask 255.255.255.0
     
     # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
     # NOTE: This bridge must be created before deploying the topology.
