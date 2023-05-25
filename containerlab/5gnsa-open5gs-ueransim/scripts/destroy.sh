@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 1 UE) for 5G Standalone (SA)'
+echo 'Containerlab scenario with Open5GS (LTE/4G EPC) and UERANSIM (1 gNB + 1 UE) for 5G Non-Standalone (NSA)'
 
 echo ''
 echo ''
@@ -32,11 +32,11 @@ echo 'Destroying scenario...'
 echo ''
 echo ''
 
-echo '1.- Destroying Open5GS 5G Core topology...'
+echo '1.- Destroying Open5GS LTE/4G EPC topology...'
 
-sudo containerlab destroy --topo ../topologies/open5gs-5gc.yaml
-sudo rm -Rf clab-open5gs-5gc/
-sudo rm ../topologies/.open5gs-5gc.yaml.bak
+sudo containerlab destroy --topo ../topologies/open5gs-epc.yaml
+sudo rm -Rf clab-open5gs-epc/
+sudo rm ../topologies/.open5gs-epc.yaml.bak
 
 echo 'Done.'
 
@@ -56,8 +56,8 @@ echo ''
 
 echo '3.- Deleting Open vSwitch bridges...'
 
-sudo ovs-vsctl del-br br-sbi
-sudo ovs-vsctl del-br br-n2-n3-n4
+sudo ovs-vsctl del-br br-s1
+sudo ovs-vsctl del-br br-mongodb
 
 echo 'Done.'
 

@@ -67,7 +67,7 @@ topology:
         - touch /var/log/open5gs/pcrf.log
 
     # SMF [PGW-c] (Session Management Function -- Packet Data Network Gateway/control plane):
-    pgw-c:
+    pgwc:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
@@ -81,7 +81,7 @@ topology:
         - touch /var/log/open5gs/smf.log
 
     # UPF [PGW-u] (User Plane Function -- Packet Data Network Gateway/user plane):
-    pgw-u:
+    pgwu:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
@@ -89,12 +89,24 @@ topology:
         - ifconfig eth1 10.105.1.2 netmask 255.255.255.0
         # S5u Interface with SGW-u:
         - ifconfig eth2 10.106.1.2 netmask 255.255.255.0
-        # TO-DO: SGi Interface and other configurations.
         # Logging file:
         - touch /var/log/open5gs/upf.log
+        # Obtaining IP address for SGi Interface:
+        - dhclient eth3
+        # Configuring default route to use SGi Interface:
+        - ip route del default
+        - ip route add default via 192.168.122.1 dev eth2
+        # Configuring TUN interfaces for Open5GS - Internet traffic (internet APN):
+        - ip tuntap add name ogstun mode tun
+        - ip addr add 172.45.1.1/24 dev ogstun
+        - ip link set ogstun up
+        # Enabling IPv4 forwarding:
+        - sysctl -w net.ipv4.ip_forward=1
+        # Creating NAT rule for UEs to have connectivity:
+        - iptables -t nat -A POSTROUTING -s 172.45.1.0/24 ! -o ogstun -j MASQUERADE
 
     # SGW-c (Serving Gateway/control plane):
-    sgw-c:
+    sgwc:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
@@ -108,7 +120,7 @@ topology:
         - touch /var/log/open5gs/sgwc.log
 
     # SGW-u (Serving Gateway/user plane):
-    sgw-u:
+    sgwu:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
@@ -137,17 +149,17 @@ topology:
         # Interface with MongoDB:
         - ifconfig eth1 10.101.1.4 netmask 255.255.255.0
     
-    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
+    # LTE/4G S1 Interface (S1-MME and S1-U) is implemented as an Open vSwitch bridge (br-s1).
     # NOTE: This bridge must be created before deploying the topology.
-    br-n2-n3-n4:
-      kind: ovs-bridge
-    
-    # Open5GS 5G Core Service Based Interface (SBI) is implemented as an Open vSwitch bridge (br-sbi).
-    # NOTE: This bridge must be created before deploying the topology.
-    br-sbi:
+    br-s1:
       kind: ovs-bridge
 
-    # Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0).
+    # Interface between EPC components (and WebUI) and MongoDB is implemented as an Open vSwitch bridge (br-mongodb).
+    # NOTE: This bridge must be created before deploying the topology.    
+    br-mongodb:
+      kind: ovs-bridge
+
+    # Open5GS LTE/4G Core SGi Interface (to PDN) is implemented as a Linux bridge (virbr0).
     # NOTE: This bridge must be created before deploying the topology.
     # It is automatically created after installing the libvirt package (and does NAT by default).
     # Subnet for this bridge is 192.168.122.0/24 (host is at 192.168.122.1).
@@ -156,33 +168,27 @@ topology:
 
   ### Links between entities (Interfaces) ###
   links:
-    # N2, N3 and N4 (N4 and N4u) Interfaces:
-    - endpoints: ["amf:eth1", "br-n2-n3-n4:amf-n2"]
-    - endpoints: ["smf:eth1", "br-n2-n3-n4:smf-n4"]
-    - endpoints: ["upf:eth1", "br-n2-n3-n4:upf-n3-n4"]
-    # N6 Interface:
-    - endpoints: ["upf:eth2", "virbr0:upf-n6"]
-    # AMF-SBI (N8, N11, N12 and N15 Interfaces):
-    - endpoints: ["amf:eth2", "br-sbi:amf-sbi"]
-    # SMF-SBI (N7, N10 and N11 Interfaces):
-    - endpoints: ["smf:eth2", "br-sbi:smf-sbi"]
-    # PCF-SBI (N7, N15 and N36 Interfaces):
-    - endpoints: ["pcf:eth1", "br-sbi:pcf-sbi"]
-    # UDR-SBI (N35 and N36 Interfaces):
-    - endpoints: ["udr:eth1", "br-sbi:udr-sbi"]
-    # UDM-SBI (N8, N10, N13 and N35 Interfaces):
-    - endpoints: ["udm:eth1", "br-sbi:udm-sbi"]
-    # AUSF-SBI (N12 and N13 Interfaces):
-    - endpoints: ["ausf:eth1", "br-sbi:ausf-sbi"]
-    # NRF-SBI:
-    - endpoints: ["nrf:eth1", "br-sbi:nrf-sbi"]
-    # NSSF-SBI:
-    - endpoints: ["nssf:eth1", "br-sbi:nssf-sbi"]
-    # BSF-SBI:
-    - endpoints: ["bsf:eth1", "br-sbi:bsf-sbi"]
-    # SCP-SBI:
-    - endpoints: ["scp:eth1", "br-sbi:scp-sbi"]
-    # MongoDB Interface with Open5GS components:
-    - endpoints: ["mongodb:eth1", "br-sbi:mongodb"]
-    # Open5GS WebUI Interface with other components:
-    - endpoints: ["webui:eth1", "br-sbi:webui"]
+    # S1 Interface (S1-MME and S1-U):
+    - endpoints: ["mme:eth3", "br-s1:mme"]
+    - endpoints: ["sgw-u:eth3", "br-s1:sgw-u"]
+    # S5c Interface:
+    - endpoints: ["sgw-c:eth2", "pgw-c:eth2"]
+    # S5u Interface:
+    - endpoints: ["sgw-u:eth1", "pgw-u:eth2"]
+    # S6a Interface:
+    - endpoints: ["mme:eth1", "hss:eth1"]
+    # S11 Interface:
+    - endpoints: ["mme:eth2", "sgw-c:eth1"]
+    # Sxa Interface:
+    - endpoints: ["sgw-c:eth3", "sgw-u:eth2"]
+    # Sxb and Sxu Interfaces:
+    - endpoints: ["pgw-c:eth3", "pgw-u:eth1"]
+    # Gx Interface:
+    - endpoints: ["pgw-c:eth1", "pcrf:eth1"]
+    # SGi Interface:
+    - endpoints: ["pgw-u:eth3", "virbr0:pgw-u"]
+    # Interfaces with MongoDB:
+    - endpoints: ["mongodb:eth1", "br-mongodb:mongodb"]
+    - endpoints: ["hss:eth2", "br-mongodb:hss"]
+    - endpoints: ["pcrf:eth2", "br-mongodb:pcrf"]
+    - endpoints: ["webui:eth1", "br-mongodb:webui"]

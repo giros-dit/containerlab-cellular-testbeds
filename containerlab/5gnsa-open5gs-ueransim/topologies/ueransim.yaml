@@ -41,19 +41,19 @@ topology:
       kind: linux
       image: giros-dit/ueransim:latest
       exec:
-        # NR-Uu Interface with UE (simulated RAN):
+        # Uu Interface with UE (simulated RAN):
         - ifconfig eth1 10.1.1.10 netmask 255.255.255.0
-        # N2 (with AMF) and N3 (with UPF) Interfaces with 5G Core:
-        - ifconfig eth2 10.100.1.4 netmask 255.255.255.0
+        # S1 Interfaces (S1-MME and S1-U) with EPC:
+        - ifconfig eth2 10.254.1.20 netmask 255.255.255.0
     
-    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
+    # LTE/4G S1 Interface (S1-MME and S1-U) is implemented as an Open vSwitch bridge (br-s1).
     # NOTE: This bridge must be created before deploying the topology.
-    br-n2-n3-n4:
+    br-s1:
       kind: ovs-bridge
 
   ### Links between entities (Interfaces) ###
   links:
-    # NR-Uu Interface:
+    # Uu Interface (simulated RAN):
     - endpoints: ["ue:eth1", "gnb:eth1"]
-    # N2 and N3 Interfaces:
-    - endpoints: ["gnb:eth2", "br-n2-n3-n4:gnb-n2-n3"]
+    # S1 Interfaces (S1-MME and S1-U):
+    - endpoints: ["gnb:eth2", "br-s1:gnb"]
