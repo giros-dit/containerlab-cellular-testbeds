@@ -62,6 +62,9 @@ SPAIN
   
   <!-- Management network for accessing containers -->
   <net name="netmgt0" mode="virtual_bridge" />
+
+  <!-- NR-Uu Interface is implemented as an Open vSwitch bridge (br-nr-uu) -->
+  <net name="br-nr-uu" mode="openvswitch" />
   
   <!-- N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) -->
   <net name="br-n2-n3-n4" mode="openvswitch" />
@@ -148,46 +151,291 @@ SPAIN
     </exec>
 
     <!-- Command for starting BSF daemon -->
-    <exec seq="start-bsf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-bsfd -c /bsf.yaml
+    <exec seq="start-bsf" type="verbatim" ities/elements -->n identity -->
+    <exec seq="add-ue" type="verbatim" ostype="system">
+       /bin/bash -c '/root/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
+       /bin/bash -c '/root/open5gs-dbctl type 001010000000001 1'
     </exec>
   </vm>
 
-  <!-- MongoDB -->
+  <!-- NRF (Network Repository Function) -->
+  <vm name="nrf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.4/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.4/24</ipv4>
+    </if>
+
+    <!-- On boot, copy NRF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/nrf.yaml</filetree>
+    
+    <!-- On boot, create NRF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/nrf.log
+    </exec>
+
+    <!-- Command for starting NRF daemon -->
+    <exec seq="start-nrf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-nrfd -c /nrf.yaml
+    </exec>
+  </vm>
+
+  <!-- NSSF (Network Slice Selection Function) -->
+  <vm name="nssf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.5/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.5/24</ipv4>
+    </if>
+
+    <!-- On boot, copy NSSF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/nssf.yaml</filetree>
+    
+    <!-- On boot, create NSSF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/nssf.log
+    </exec>
+
+    <!-- Command for starting NSSF daemon -->
+    <exec seq="start-nssf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-nssfd -c /nssf.yaml
+    </exec>
+  </vm>
+
+  <!-- PCF (Policy Control Function) -->
+  <vm name="pcf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.6/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.6/24</ipv4>
+    </if>
+
+    <!-- On boot, copy PCF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/pcf.yaml</filetree>
+    
+    <!-- On boot, create PCF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/pcf.log
+    </exec>
+
+    <!-- Command for starting PCF daemon -->
+    <exec seq="start-pcf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-pcfd -c /pcf.yaml
+    </exec>
+  </vm>
+
+  <!-- SCP (Service Communication Proxy) -->
+  <vm name="scp" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.7/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.7/24</ipv4>
+    </if>
+
+    <!-- On boot, copy SCP configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/scp.yaml</filetree>
+    
+    <!-- On boot, create SCP logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/scp.log
+    </exec>
+
+    <!-- Command for starting SCP daemon -->
+    <exec seq="start-nssf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-scpd -c /scp.yaml
+    </exec>
+  </vm>
+
+  <!-- SMF (Session Management Function) -->
+  <vm name="smf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-n2-n3-n4">
+      <ipv4>10.100.1.2/24</ipv4>
+    </if>
+    <if id="2" net="br-sbi">
+      <ipv4>10.254.1.8/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.8/24</ipv4>
+    </if>
+
+    <!-- On boot, copy SMF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/smf.yaml</filetree>
+    
+    <!-- On boot, create SMF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/smf.log
+    </exec>
+
+    <!-- Command for starting SMF daemon -->
+    <exec seq="start-smf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-smfd -c /smf.yaml
+    </exec>
+  </vm>
+
+  <!-- UDM (Unified Data Management) -->
+  <vm name="udm" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.9/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.9/24</ipv4>
+    </if>
+
+    <!-- On boot, copy UDM configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/udm.yaml</filetree>
+    
+    <!-- On boot, create UDM logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/udm.log
+    </exec>
+
+    <!-- Command for starting UDM daemon -->
+    <exec seq="start-udm" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-udmd -c /udm.yaml
+    </exec>
+  </vm>
+
+  <!-- UDR (Unified Data Repository) -->
+  <vm name="udr" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.10/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.10/24</ipv4>
+    </if>
+
+    <!-- On boot, copy UDR configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/udr.yaml</filetree>
+    
+    <!-- On boot, create UDR logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/udr.log
+    </exec>ities/elements -->
+
+    <!-- Command for starting UDR daemon -->
+    <exec seq="start-udr" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-udrd -c /udr.yaml
+    </exec>
+  </vm>
+
+  <!-- UPF (User Plane Function) -->
+  <vm name="upf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-n2-n3-n4">
+      <ipv4>10.100.1.3/24</ipv4>
+    </if>
+    <if id="2" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.11/24</ipv4>
+    </if>
+
+    <!-- Enable IP forwarding -->
+    <forwarding type="ip"/>
+
+    <!-- On boot, copy UPF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/upf.yaml</filetree>
+    
+    <!-- On boot, create UPF logging file and apply additional configurations -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/upf.log
+       <!-- Configuring default route to use N6 Interface: -->
+       ip route del default
+       ip route add default via 192.168.122.1 dev eth2
+       <!-- Configuring TUN interfaces for Open5GS - Internet traffic (internet APN): -->
+       ip tuntap add name ogstun mode tun
+       ip addr add 172.45.1.1/24 dev ogstun
+       ip link set ogstun up
+       <!-- Enabling IPv4 forwarding (this might not be necessary):-->
+       sysctl -w net.ipv4.ip_forward=1
+       <!-- Creating NAT rule for UEs to have connectivity: -->
+       iptables -t nat -A POSTROUTING -s 172.45.1.0/24 ! -o ogstun -j MASQUERADE
+    </exec>
+
+    <!-- Command for starting UPF daemon -->
+    <exec seq="start-upf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-upfd -c /upf.yaml
+    </exec>
+  </vm>
+
+  <!-- Open5GS WebUI -->
   <vm name="mongodb" type="lxc" arch="x86_64">
     <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
     <mem>512M</mem>
     <if id="1" net="br-sbi">
-      <ipv4>10.254.1.100/24</ipv4>
+      <ipv4>10.254.1.200/24</ipv4>
     </if>
     <if id="8" net="netmgt0">
-      <ipv4>172.16.0.100/24</ipv4>
+      <ipv4>172.16.0.200/24</ipv4>
     </if>
 
-    <!-- On boot, copy AUSF configuration file -->
-    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/ausf.yaml</filetree>
-    
-    <!-- On boot, create AUSF logging file -->
-    <exec seq="on_boot" type="verbatim" ostype="system">
-       touch /var/log/open5gs/ausf.log
-    </exec>
-
-    <!-- Command for starting AUSF daemon -->
-    <exec seq="start-ausf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-ausfd -c /ausf.yaml
+    <!-- Commands for starting WebUI -->
+    <exec seq="start-webui" type="verbatim" ostype="system">
+       /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /root/open5gs/webui'
     </exec>
   </vm>
 
-  <!-- Host local, para gestión durante la ejecución del escenario -->
+  <!-- Containers: UERANSIM nodes/entities/elements -->
+
+  <!-- gNB (gNodeB) -->
+  <vm name="gnb" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="br-nr-uu">
+      <ipv4>10.1.1.10/24</ipv4>
+    </if>
+    <if id="2" net="br-n2-n3-n4">
+      <ipv4>10.100.1.4/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.210/24</ipv4>
+    </if>
+
+    <!-- On boot, copy gNB configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/ueransim/gnb.yaml</filetree>
+  </vm>
+
+  <!-- UE (User Equipment) -->
+  <vm name="ue" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>8G</mem>
+    <if id="1" net="br-nr-uu">
+      <ipv4>10.1.1.20/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.220/24</ipv4>
+    </if>
+
+    <!-- On boot, copy UE configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/ueransim/ue.yaml</filetree>
+  </vm>
+
+  <!-- Other -->
+
+  <!-- Local host network interface with container management network -->
   <host>
     <hostif net="netmgt0">
-      <ipv4>172.16.0.200/24</ipv4>
-    </hostif>
-    <hostif net="netmgt1">
-      <ipv4>172.16.1.200/24</ipv4>
-    </hostif>
-    <hostif net="netmgt2">
-      <ipv4>172.16.2.200/24</ipv4>
+      <ipv4>172.16.0.254/24</ipv4>
     </hostif>
   </host>
 </vnx>
