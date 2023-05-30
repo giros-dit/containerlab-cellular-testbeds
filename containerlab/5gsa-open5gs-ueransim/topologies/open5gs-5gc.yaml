@@ -172,7 +172,7 @@ topology:
         # Interface with other Open5GS containers:
         - ifconfig eth1 10.254.1.200 netmask 255.255.255.0
     
-    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
+    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4).
     # NOTE: This bridge must be created before deploying the topology.
     br-n2-n3-n4:
       kind: ovs-bridge

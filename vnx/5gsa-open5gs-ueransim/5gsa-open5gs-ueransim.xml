@@ -1,0 +1,193 @@
+<!--
+
+MIT License
+
+Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+~~~~~~~~~~~~~~~~
+VNX Scenario
+~~~~~~~~~~~~~~~~
+
+Name: 5gsa-open5gs-ueransim
+Description: 5G Standalone scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 1 UE).
+
+Revision: 05/30/2023.
+
+This file is part of the Virtual Networks over LinuX (VNX) Project distribution. 
+(www: http://www.dit.upm.es/vnx - e-mail: vnx@dit.upm.es) 
+
+Departamento de Ingeniería de Sistemas Telemáticos (DIT)
+Universidad Politécnica de Madrid
+SPAIN
+
+-->
+
+<vnx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/usr/share/xml/vnx/vnx-2.00.xsd">
+  <global>
+    <version>2.0</version>
+    <scenario_name>5gsa-open5gs-ueransim</scenario_name>
+    <vm_mgmt type="none" />
+        
+    <vm_defaults>
+       <console id="0" display="no"/>
+       <console id="1" display="yes"/>
+    </vm_defaults>
+  </global>
+  
+  <!-- Switches and bridges -->
+  
+  <!-- Management network for accessing containers -->
+  <net name="netmgt0" mode="virtual_bridge" />
+  
+  <!-- N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) -->
+  <net name="br-n2-n3-n4" mode="openvswitch" />
+  
+  <!-- Open5GS 5G Core Service Based Interface (SBI) is implemented as an Open vSwitch bridge (br-sbi) -->
+  <net name="br-sbi" mode="openvswitch" />
+  
+  <!-- Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0) -->
+  <!-- Subnet for this bridge is 192.168.122.0/24 (host is at 192.168.122.1) -->
+  <net name="virbr0" mode="virtual_bridge" managed="no" />
+
+  <!-- Containers: Open5GS nodes/entities/elements -->
+
+  <!-- AMF (Access and Management Function) -->
+  <vm name="amf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-n2-n3-n4">
+      <ipv4>10.100.1.1/24</ipv4>
+    </if>
+    <if id="2" net="br-sbi">
+      <ipv4>10.254.1.1/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.1/24</ipv4>
+    </if>
+
+    <!-- On boot, copy AMF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/amf.yaml</filetree>
+    
+    <!-- On boot, create AMF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/amf.log
+    </exec>
+
+    <!-- Command for starting AMF daemon -->
+    <exec seq="start-amf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-amfd -c /amf.yaml
+    </exec>    
+  </vm>
+  
+  <!-- AUSF (Authentication Server Function) -->
+  <vm name="ausf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.2/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.2/24</ipv4>
+    </if>
+
+    <!-- On boot, copy AUSF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/ausf.yaml</filetree>
+    
+    <!-- On boot, create AUSF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/ausf.log
+    </exec>
+
+    <!-- Command for starting AUSF daemon -->
+    <exec seq="start-ausf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-ausfd -c /ausf.yaml
+    </exec>
+  </vm>
+
+  <!-- BSF (Binding Support Function) -->
+  <vm name="bsf" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.3/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.3/24</ipv4>
+    </if>
+
+    <!-- On boot, copy BSF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/bsf.yaml</filetree>
+    
+    <!-- On boot, create BSF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/bsf.log
+    </exec>
+
+    <!-- Command for starting BSF daemon -->
+    <exec seq="start-bsf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-bsfd -c /bsf.yaml
+    </exec>
+  </vm>
+
+  <!-- MongoDB -->
+  <vm name="mongodb" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.100/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.100/24</ipv4>
+    </if>
+
+    <!-- On boot, copy AUSF configuration file -->
+    <filetree seq="on_boot" root="/" perms="777">conf/open5gs/ausf.yaml</filetree>
+    
+    <!-- On boot, create AUSF logging file -->
+    <exec seq="on_boot" type="verbatim" ostype="system">
+       touch /var/log/open5gs/ausf.log
+    </exec>
+
+    <!-- Command for starting AUSF daemon -->
+    <exec seq="start-ausf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-ausfd -c /ausf.yaml
+    </exec>
+  </vm>
+
+  <!-- Host local, para gestión durante la ejecución del escenario -->
+  <host>
+    <hostif net="netmgt0">
+      <ipv4>172.16.0.200/24</ipv4>
+    </hostif>
+    <hostif net="netmgt1">
+      <ipv4>172.16.1.200/24</ipv4>
+    </hostif>
+    <hostif net="netmgt2">
+      <ipv4>172.16.2.200/24</ipv4>
+    </hostif>
+  </host>
+</vnx>
