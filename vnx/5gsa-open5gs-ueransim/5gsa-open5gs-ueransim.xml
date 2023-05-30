@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 
 MIT License
@@ -21,12 +23,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--->
-
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
 
 ~~~~~~~~~~~~~~~~
 VNX Scenario
@@ -150,8 +146,7 @@ SPAIN
        touch /var/log/open5gs/bsf.log
     </exec>
 
-    <!-- Command for starting BSF daemon -->
-    <exec seq="start-bsf" type="verbatim" ities/elements -->n identity -->
+    <!-- Command for adding UE subscriber identity -->
     <exec seq="add-ue" type="verbatim" ostype="system">
        /bin/bash -c '/root/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
        /bin/bash -c '/root/open5gs-dbctl type 001010000000001 1'
@@ -379,7 +374,7 @@ SPAIN
   </vm>
 
   <!-- Open5GS WebUI -->
-  <vm name="mongodb" type="lxc" arch="x86_64">
+  <vm name="webui" type="lxc" arch="x86_64">
     <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
     <mem>512M</mem>
     <if id="1" net="br-sbi">
