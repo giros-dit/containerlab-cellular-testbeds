@@ -386,7 +386,7 @@ SPAIN
 
     <!-- Commands for starting WebUI -->
     <exec seq="start-webui" type="verbatim" ostype="system">
-       /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs &#038;&#038; npm run dev --prefix /root/open5gs/webui'
+       /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /root/open5gs/webui'
     </exec>
   </vm>
 
