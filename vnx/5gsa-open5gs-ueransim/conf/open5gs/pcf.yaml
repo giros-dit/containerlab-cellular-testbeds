@@ -64,14 +64,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-      key: /open5gs/install/etc/open5gs/tls/pcf.key
-      cert: /open5gs/install/etc/open5gs/tls/pcf.crt
+      cacert: /root/open5gs/install/etc/open5gs/tls/ca.crt
+      key: /root/open5gs/install/etc/open5gs/tls/pcf.key
+      cert: /root/open5gs/install/etc/open5gs/tls/pcf.crt
     client:
       no_tls: true
-      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-      key: /open5gs/install/etc/open5gs/tls/pcf.key
-      cert: /open5gs/install/etc/open5gs/tls/pcf.crt
+      cacert: /root/open5gs/install/etc/open5gs/tls/ca.crt
+      key: /root/open5gs/install/etc/open5gs/tls/pcf.key
+      cert: /root/open5gs/install/etc/open5gs/tls/pcf.crt
 
 #
 #  <SBI Server>
@@ -328,7 +328,7 @@ scp:
 #  o SBI Client(http://127.0.0.10:7777)
 #    sbi:
 #      addr: 127.0.0.10
-#      port: 7777
+#      port: 7777root/
 #
 #  o SBI Client(https://127.0.0.10:443, https://[::1]:443)
 #  tls:
@@ -372,7 +372,7 @@ scp:
 #
 #nrf:
 #    sbi:
-#      - addr:
+#      - addr:root/
 #          - 127.0.0.10
 #          - ::1
 #        port: 7777

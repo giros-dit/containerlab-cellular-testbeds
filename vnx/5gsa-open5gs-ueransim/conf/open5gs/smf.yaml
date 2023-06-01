@@ -62,14 +62,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-      key: /open5gs/install/etc/open5gs/tls/smf.key
-      cert: /open5gs/install/etc/open5gs/tls/smf.crt
+      cacert: /root/open5gs/install/etc/open5gs/tls/ca.crt
+      key: /root/open5gs/install/etc/open5gs/tls/smf.key
+      cert: /root/open5gs/install/etc/open5gs/tls/smf.crt
     client:
       no_tls: true
-      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-      key: /open5gs/install/etc/open5gs/tls/smf.key
-      cert: /open5gs/install/etc/open5gs/tls/smf.crt
+      cacert: /root/open5gs/install/etc/open5gs/tls/ca.crt
+      key: /root/open5gs/install/etc/open5gs/tls/smf.key
+      cert: /root/open5gs/install/etc/open5gs/tls/smf.crt
 
 #
 #  <SBI Server>
@@ -337,7 +337,7 @@ sbi:
 #        port: 9090
 #
 #  <Subnet for UE Pool>
-#
+#root/
 #  o IPv4 Pool
 #  smf:
 #    subnet:
@@ -563,7 +563,7 @@ sbi:
 #              mcc: 999
 #              mnc: 70
 #            range:
-#              - 100-200
+#              - 10root/0-200
 #              - 300-400
 #          - plmn_id:
 #              mcc: 999
@@ -619,7 +619,7 @@ smf:
     mtu: 1400
     ctf:
       enabled: auto
-    freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
+    freeDiameter: /root/open5gs/install/etc/freeDiameter/smf.conf
 
 #
 #  <SBI Client>>

@@ -20,7 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+LIABILITY, WHETHER IN AN ACT ION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
@@ -31,7 +31,7 @@ VNX Scenario
 Name: 5gsa-open5gs-ueransim
 Description: 5G Standalone scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 1 UE).
 
-Revision: 05/30/2023.
+Revision: 06/01/2023.
 
 This file is part of the Virtual Networks over LinuX (VNX) Project distribution. 
 (www: http://www.dit.upm.es/vnx - e-mail: vnx@dit.upm.es) 
@@ -47,7 +47,6 @@ SPAIN
     <version>2.0</version>
     <scenario_name>5gsa-open5gs-ueransim</scenario_name>
     <vm_mgmt type="none" />
-        
     <vm_defaults>
        <console id="0" display="no"/>
        <console id="1" display="yes"/>
@@ -98,7 +97,7 @@ SPAIN
 
     <!-- Command for starting AMF daemon -->
     <exec seq="start-amf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-amfd -c /amf.yaml
+       /root/open5gs/install/bin/open5gs-amfd -D -c /amf.yaml
     </exec>    
   </vm>
   
@@ -123,7 +122,7 @@ SPAIN
 
     <!-- Command for starting AUSF daemon -->
     <exec seq="start-ausf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-ausfd -c /ausf.yaml
+       /root/open5gs/install/bin/open5gs-ausfd -D -c /ausf.yaml
     </exec>
   </vm>
 
@@ -144,6 +143,28 @@ SPAIN
     <!-- On boot, create BSF logging file -->
     <exec seq="on_boot" type="verbatim" ostype="system">
        touch /var/log/open5gs/bsf.log
+    </exec>
+
+    <!-- Command for starting BSF daemon -->
+    <exec seq="start-nrf" type="verbatim" ostype="system">
+       /root/open5gs/install/bin/open5gs-bsfd -D -c /bsf.yaml
+    </exec>
+  </vm>
+
+  <!-- MongoDB (Subscriber database) -->
+  <vm name="mongodb" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/rootfs_lxc_ubuntu64_cellular_testbeds</filesystem>
+    <mem>512M</mem>
+    <if id="1" net="br-sbi">
+      <ipv4>10.254.1.100/24</ipv4>
+    </if>
+    <if id="8" net="netmgt0">
+      <ipv4>172.16.0.100/24</ipv4>
+    </if>
+    
+    <!-- Command to start MongoDB daemon -->
+    <exec seq="start-mongodb" type="verbatim" ostype="system">
+       mongod --dbpath /var/lib/mongodb --logpath /var/log/mongodb/mongodb.log --bind_ip 0.0.0.0
     </exec>
 
     <!-- Command for adding UE subscriber identity -->
@@ -174,7 +195,7 @@ SPAIN
 
     <!-- Command for starting NRF daemon -->
     <exec seq="start-nrf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-nrfd -c /nrf.yaml
+       /root/open5gs/install/bin/open5gs-nrfd -D -c /nrf.yaml
     </exec>
   </vm>
 
@@ -199,7 +220,7 @@ SPAIN
 
     <!-- Command for starting NSSF daemon -->
     <exec seq="start-nssf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-nssfd -c /nssf.yaml
+       /root/open5gs/install/bin/open5gs-nssfd -D -c /nssf.yaml
     </exec>
   </vm>
 
@@ -224,7 +245,7 @@ SPAIN
 
     <!-- Command for starting PCF daemon -->
     <exec seq="start-pcf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-pcfd -c /pcf.yaml
+       /root/open5gs/install/bin/open5gs-pcfd -D -c /pcf.yaml
     </exec>
   </vm>
 
@@ -249,7 +270,7 @@ SPAIN
 
     <!-- Command for starting SCP daemon -->
     <exec seq="start-nssf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-scpd -c /scp.yaml
+       /root/open5gs/install/bin/open5gs-scpd -D -c /scp.yaml
     </exec>
   </vm>
 
@@ -277,7 +298,7 @@ SPAIN
 
     <!-- Command for starting SMF daemon -->
     <exec seq="start-smf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-smfd -c /smf.yaml
+       /root/open5gs/install/bin/open5gs-smfd -D -c /smf.yaml
     </exec>
   </vm>
 
@@ -302,7 +323,7 @@ SPAIN
 
     <!-- Command for starting UDM daemon -->
     <exec seq="start-udm" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-udmd -c /udm.yaml
+       /root/open5gs/install/bin/open5gs-udmd -D -c /udm.yaml
     </exec>
   </vm>
 
@@ -323,11 +344,11 @@ SPAIN
     <!-- On boot, create UDR logging file -->
     <exec seq="on_boot" type="verbatim" ostype="system">
        touch /var/log/open5gs/udr.log
-    </exec>ities/elements -->
+    </exec>
 
     <!-- Command for starting UDR daemon -->
     <exec seq="start-udr" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-udrd -c /udr.yaml
+       /root/open5gs/install/bin/open5gs-udrd -D -c /udr.yaml
     </exec>
   </vm>
 
@@ -369,7 +390,7 @@ SPAIN
 
     <!-- Command for starting UPF daemon -->
     <exec seq="start-upf" type="verbatim" ostype="system">
-       /root/open5gs/install/bin/open5gs-upfd -c /upf.yaml
+       /root/open5gs/install /bin/open5gs-upfd -D -c /upf.yaml
     </exec>
   </vm>
 
@@ -384,9 +405,9 @@ SPAIN
       <ipv4>172.16.0.200/24</ipv4>
     </if>
 
-    <!-- Commands for starting WebUI -->
+    <!-- Command for starting WebUI -->
     <exec seq="start-webui" type="verbatim" ostype="system">
-       /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /root/open5gs/webui'
+      npm run dev --prefix /root/open5gs/webui
     </exec>
   </vm>
 
@@ -423,7 +444,7 @@ SPAIN
 
     <!-- On boot, copy UE configuration file -->
     <filetree seq="on_boot" root="/" perms="777">conf/ueransim/ue.yaml</filetree>
-  </vm>
+   </vm>
 
   <!-- Other -->
 

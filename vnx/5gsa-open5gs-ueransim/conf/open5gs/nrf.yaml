@@ -62,14 +62,14 @@ logger:
 sbi:
     server:
       no_tls: true
-      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-      key: /open5gs/install/etc/open5gs/tls/nrf.key
-      cert: /open5gs/install/etc/open5gs/tls/nrf.crt
+      cacert: /root/open5gs/install/etc/open5gs/tls/ca.crt
+      key: /root/open5gs/install/etc/open5gs/tls/nrf.key
+      cert: /root/open5gs/install/etc/open5gs/tls/nrf.crt
     client:
       no_tls: true
-      cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-      key: /open5gs/install/etc/open5gs/tls/nrf.key
-      cert: /open5gs/install/etc/open5gs/tls/nrf.crt
+      cacert: /root/open5gs/install/etc/open5gs/tls/ca.crt
+      key: /root/open5gs/install/etc/open5gs/tls/nrf.key
+      cert: /root/open5gs/install/etc/open5gs/tls/nrf.crt
 
 #
 #  <SBI Server>
