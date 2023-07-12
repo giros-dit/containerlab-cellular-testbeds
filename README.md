@@ -1,24 +1,18 @@
 # _Containerlab_ testbeds for cellular mobile communications networks
 
-<table align="center">
-	<tr>
-		<td><a href="https://containerlab.dev/"><img src="resources/images/containerlab-logo.png"></a></td>
-	</tr>
-</table>
-
 ## About
 
 The main goal of this repository is to provide testbed scenarios for cellular mobile communications networks (e.g., LTE/4G/5G) using _Containerlab_ (based on _Docker_ containers).
 
 While _Docker_ provides _Docker Compose_ for defining and deploying complex, multi-container scenarios, the networking part of it (inter-container connectivity) is arguably still a little bit complicated. Therefore, it is interesting to use other tools that simplify this task, so here is where _Containerlab_ comes into play. This tool provides an easy way of defining network topologies and scenarios by using a standard definition language (YAML). And by leveraging existent _Linux_ bridging and switching software, such as _Open vSwitch_, we can use it to define custom, modular scenarios that can be interconnected in a handful of different ways.
 
-The idea is to provide different scenarios that can be used to deploy and test complete cellular networks. The core network is provided using _Containerlab_ topologies, and the RAN can be either deployed using any simulated or _physical_ implementations of your choice. The scenarios can be interconnected, so it's possible to, for example, add an IMS and provide VoLTE, or extend the networks in any way you may imagine.
+The idea is to provide different scenarios that can be used to deploy and test complete cellular networks. The core network is provided using _Containerlab_ topologies, and the RAN can be either deployed using any simulated or _physical_ implementations of your choice. The scenarios can be interconnected, so it is possible to, for example, add an IMS and provide VoLTE, or extend the networks in any way you may imagine.
 
 ### Requisites
 
 In order to run the scenarios, you need to have the following:
 - A machine running either a native or virtualized 64-bit _Linux_ operating system with a fairly good amount of available RAM and storage.
-	- Depending on your system limitations and the usage of your operating system, a good, minimum recommendation would be to have 16 GB of RAM and 128 GB of storage. However, a more limited system could also run these scenarios without trouble.
+	- Depending on your system limitations and the usage of your operating system, a good, minimum recommendation would be to have 16 GB of RAM and 128 GB of storage. However, a more limited system could also run these scenarios without issues.
 	- Since the core functionality of the scenarios runs on _Docker_ containers, any _Linux_ distribution can be used. However, for maximum compatibility of libraries and dependencies we have used _Ubuntu 20.04 LTS_. You may want to use this or a newer version. Nevertheless, if you prefer another distribution, feel free to use it, but notice that the installation instructions for any library and dependency will vary.
 	- If you use _Windows_ 10 or 11, _WSL2_ may work, but bear in mind that we haven't tested it.
 - You can find the installation instructions for _Containerlab_ along with more documentation at this link: https://containerlab.dev/install/. This tool relies on _Docker_, so you must also install it on your machine.
@@ -61,7 +55,7 @@ $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 
 ### 2.- Deploying scenarios
 
-In the ![`containerlab`](containerlab) directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following:
+In the ![`containerlab`](containerlab) directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following structure:
 
 - A `README` file with information and instructions about the scenario.
 - A `conf` subdirectory with configuration files for each container that composes the scenario.
