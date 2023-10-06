@@ -23,6 +23,12 @@
 ### Containerlab topology for Open5GS (5G Core) ###
 name: open5gs-5gc
 
+### Custom management network
+mgmt:
+  network: custom_mgmt
+  ipv4-subnet: 172.48.196.0/24
+  ipv6-subnet: 2001:172:48:196::/80
+
 ### Topology nodes (entities/elements) ###
 topology:
   nodes:    
