@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # MIT License
 # 
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
@@ -22,59 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 1 UE) for 5G Standalone (SA)'
+### Containerlab topology for server:
+name: servertopo
 
-echo ''
-echo ''
+### Topology nodes (entities/elements) ###
+topology:
+  nodes:
+    server:
+      kind: linux
+      image: giros-dit/server:latest
+      exec:
+        # Interface with virb0:
+        - ifconfig eth1 192.168.122.5 netmask 255.255.255.0
+        # Configuring default route to use virb0
+        - ip route del default
+        - ip route add default via 192.168.122.1 dev eth1
 
-echo 'Destroying scenario...'
+    # Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0).
+    # NOTE: This bridge must be created before deploying the topology.
+    # It is automatically created after installing the libvirt package (and does NAT by default).
+    # Subnet for this bridge is 192.168.122.0/24 (host is at 192.168.122.1).
+    virbr0:
+      kind: bridge
 
-echo ''
-echo ''
-
-echo '1.- Destroying Open5GS 5G Core topology...'
-
-sudo containerlab destroy --topo ../topologies/open5gs-5gc.yaml
-sudo rm -Rf clab-open5gs-5gc/
-sudo rm ../topologies/.open5gs-5gc.yaml.bak
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo '2.- Destroying UERANSIM (1 gNB + 2 UE) topology...'
-
-sudo containerlab destroy --topo ../topologies/ueransim.yaml
-sudo rm -Rf clab-ueransim/
-sudo rm ../topologies/.ueransim.yaml.bak
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo '3.- Destroying server topology...'
-
-sudo containerlab destroy --topo ../topologies/server.yaml
-sudo rm -Rf clab-server/
-sudo rm ../topologies/.server.yaml.bak
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-
-echo '4.- Deleting Open vSwitch bridges...'
-
-sudo ovs-vsctl del-br br-sbi
-sudo ovs-vsctl del-br br-n2-n3-n4
-sudo ovs-vsctl del-br br-ue
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo 'All done. Scenario fully destroyed.'
+  ### Links between entities (Interfaces) ###
+  links:
+    # Interface with virb0:
+    - endpoints: ["server:eth1", "virbr0:serv-internet"]

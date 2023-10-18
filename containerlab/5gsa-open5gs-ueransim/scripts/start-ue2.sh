@@ -22,59 +22,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 1 UE) for 5G Standalone (SA)'
+echo 'Starting UERANSIM UE (in foreground)...'
 
 echo ''
 echo ''
 
-echo 'Destroying scenario...'
+sudo docker exec -it clab-ueransim-ue2 /UERANSIM/build/nr-ue -c /ue2.yaml
 
 echo ''
 echo ''
 
-echo '1.- Destroying Open5GS 5G Core topology...'
-
-sudo containerlab destroy --topo ../topologies/open5gs-5gc.yaml
-sudo rm -Rf clab-open5gs-5gc/
-sudo rm ../topologies/.open5gs-5gc.yaml.bak
-
-echo 'Done.'
+echo 'Interrupt signal detected - UE execution finished.'
 
 echo ''
 echo ''
-
-echo '2.- Destroying UERANSIM (1 gNB + 2 UE) topology...'
-
-sudo containerlab destroy --topo ../topologies/ueransim.yaml
-sudo rm -Rf clab-ueransim/
-sudo rm ../topologies/.ueransim.yaml.bak
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo '3.- Destroying server topology...'
-
-sudo containerlab destroy --topo ../topologies/server.yaml
-sudo rm -Rf clab-server/
-sudo rm ../topologies/.server.yaml.bak
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-
-echo '4.- Deleting Open vSwitch bridges...'
-
-sudo ovs-vsctl del-br br-sbi
-sudo ovs-vsctl del-br br-n2-n3-n4
-sudo ovs-vsctl del-br br-ue
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo 'All done. Scenario fully destroyed.'

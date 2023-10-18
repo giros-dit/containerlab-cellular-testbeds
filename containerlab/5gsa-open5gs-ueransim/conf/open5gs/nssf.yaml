@@ -313,6 +313,11 @@ nssf:
         port: 7777
         s_nssai:
           sst: 1
+      - addr: 127.0.0.19
+        port: 7777
+        s_nssai:
+          sst: 4
+          sd: 000100
 
 #
 #  <SBI Client>>

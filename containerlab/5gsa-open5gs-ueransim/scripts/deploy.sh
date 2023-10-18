@@ -31,6 +31,7 @@ echo '1.- Creating network bridges for inter-container connectivity: SBI; and N2
 
 sudo ovs-vsctl add-br br-sbi
 sudo ovs-vsctl add-br br-n2-n3-n4
+sudo ovs-vsctl add-br br-ue
 
 echo 'Done.'
 
@@ -41,6 +42,7 @@ echo '2.- Deploying Containerlab topologies (Open5GS 5G Core and UERANSIM)...'
 
 sudo containerlab deploy --topo ../topologies/open5gs-5gc.yaml
 sudo containerlab deploy --topo ../topologies/ueransim.yaml
+sudo containerlab deploy --topo ../topologies/server.yaml
 
 echo 'Done.'
 
@@ -53,6 +55,8 @@ sudo docker cp ../conf/ueransim/gnb.yaml clab-ueransim-gnb:/
 sudo docker exec -td clab-ueransim-gnb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 sudo docker cp ../conf/ueransim/ue.yaml clab-ueransim-ue:/
 sudo docker exec -td clab-ueransim-ue /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
+sudo docker cp ../conf/ueransim/ue2.yaml clab-ueransim-ue2:/
+sudo docker exec -td clab-ueransim-ue2 /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
 
@@ -196,6 +200,8 @@ echo '16.- Starting Open5GS WebUI and registering UE subscriber identity...'
 sudo docker exec -td clab-open5gs-5gc-webui /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /open5gs/webui'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000001 1'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000002 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000002 1'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
