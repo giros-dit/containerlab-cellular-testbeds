@@ -24,7 +24,7 @@ In order to run the scenarios, you need to have the following:
 
 <table align="left">
 	<tr>
-		<td"><a href="https://containerlab.dev/"><img src="resources/images/clab-logo.png"></a></td>
+		<td><a href="https://containerlab.dev/"><img src="resources/images/clab-logo.png"></a></td>
 		<td>Tool for orchestrating and managing container-based networking laboratories.</td>
 	</tr>
 	<tr>
