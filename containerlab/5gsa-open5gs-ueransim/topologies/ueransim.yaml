@@ -23,6 +23,12 @@
 ### Containerlab topology for UERANSIM: 1 gNB + 2 UEs ###
 name: ueransim
 
+### Custom management network
+mgmt:
+  network: custom_mgmt_2
+  ipv4-subnet: 172.49.196.0/24
+  ipv6-subnet: 2001:172:49:196::/80
+
 ### Topology nodes (entities/elements) ###
 topology:
   nodes:

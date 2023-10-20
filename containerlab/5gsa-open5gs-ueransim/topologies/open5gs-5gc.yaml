@@ -25,7 +25,7 @@ name: open5gs-5gc
 
 ### Custom management network
 mgmt:
-  network: custom_mgmt
+  network: custom_mgmt_1
   ipv4-subnet: 172.48.196.0/24
   ipv6-subnet: 2001:172:48:196::/80
 
