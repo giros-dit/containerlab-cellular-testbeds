@@ -37,13 +37,15 @@ RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute ip
     xauth openssh-server tcpdump unzip subversion git curl wget gnupg python3-pip python3-setuptools \
     python3-wheel ninja-build build-essential flex bison cmake libsctp-dev libgnutls28-dev \
     libgcrypt-dev libssl-dev libidn11-dev libmongoc-dev libbson-dev libyaml-dev libnghttp2-dev \
-    libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev libtins-dev libtalloc-dev meson
+    libmicrohttpd-dev libcurl4-gnutls-dev libnghttp2-dev libtins-dev libtalloc-dev meson ca-certificates
 
 # Install NodeJS.
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt install nodejs
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt update && apt install -y nodejs
 
-# Clone, build and install Open5GS from its GitHub repository.
+# Clone, build and install Open5GS (including WebUI) from its GitHub repository.
 RUN git clone https://github.com/open5gs/open5gs
 WORKDIR /open5gs
 RUN meson build --prefix=`pwd`/install

@@ -22,17 +22,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Starting UERANSIM UE (in foreground)...'
+echo 'Starting UERANSIM UE 1 (in foreground)...'
 
 echo ''
 echo ''
 
-sudo docker exec -it clab-ueransim-ue /UERANSIM/build/nr-ue -c /ue.yaml
+sudo docker exec -it clab-ueransim-ue1 /UERANSIM/build/nr-ue -c /ue.yaml
 
 echo ''
 echo ''
 
-echo 'Interrupt signal detected - UE execution finished.'
+echo 'Interrupt signal detected - UE 1 execution finished.'
 
 echo ''
 echo ''

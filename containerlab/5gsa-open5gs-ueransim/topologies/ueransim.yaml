@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-### Containerlab topology for UERANSIM: 1 gNB + 1 UE ###
+### Containerlab topology for UERANSIM: 1 gNB + 2 UEs ###
 name: ueransim
 
 ### Topology nodes (entities/elements) ###
@@ -28,23 +28,36 @@ topology:
   nodes:
     ### RAN Elements (UERANSIM) ###
 
-    # UE (User Equipment):
-    ue:
+    # UE 1 (User Equipment 1):
+    ue1:
       kind: linux
       image: giros-dit/ueransim:latest
       exec:
-        # Uu Interface with gNB (simulated RAN):
-        - ifconfig eth1 10.1.1.20 netmask 255.255.255.0
+        # NR-Uu Interface with gNB (simulated RAN):
+        - ifconfig eth1 10.1.1.21 netmask 255.255.255.0
+
+    # UE 2 (User Equipment 2):
+    ue2:
+      kind: linux
+      image: giros-dit/ueransim:latest
+      exec:
+        # NR-Uu Interface with gNB (simulated RAN):
+        - ifconfig eth1 10.1.1.22 netmask 255.255.255.0
     
     # gNB (gNodeB):
     gnb:
       kind: linux
       image: giros-dit/ueransim:latest
       exec:
-        # NR-Uu Interface with UE (simulated RAN):
+        # NR-Uu Interface with UEs (simulated RAN):
         - ifconfig eth1 10.1.1.10 netmask 255.255.255.0
         # N2 (with AMF) and N3 (with UPF) Interfaces with 5G Core:
         - ifconfig eth2 10.100.1.4 netmask 255.255.255.0
+    
+    # NR-Uu Interface (simulated RAN) is implemented as an Open vSwitch bridge (br-nr-uu).
+    # NOTE: This bridge must be created before deploying the topology.
+    br-nr-uu:
+      kind: ovs-bridge
     
     # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
     # NOTE: This bridge must be created before deploying the topology.
@@ -53,7 +66,9 @@ topology:
 
   ### Links between entities (Interfaces) ###
   links:
-    # NR-Uu Interface:
-    - endpoints: ["ue:eth1", "gnb:eth1"]
+    # NR-Uu Interfaces (simulated RAN):
+    - endpoints: ["ue1:eth1", "br-nr-uu:ue1"]
+    - endpoints: ["ue2:eth1", "br-nr-uu:ue2"]
+    - endpoints: ["gnb:eth1", "br-nr-uu:gnb"]
     # N2 and N3 Interfaces:
     - endpoints: ["gnb:eth2", "br-n2-n3-n4:gnb-n2-n3"]

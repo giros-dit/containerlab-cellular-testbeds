@@ -3,7 +3,7 @@
 # MIT License
 # 
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -22,15 +22,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 1 UE) for 5G Standalone (SA)'
+echo 'Containerlab scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 2 UEs) for 5G Standalone (SA)'
 
 echo ''
 echo ''
 
-echo '1.- Creating network bridges for inter-container connectivity: SBI; and N2, N3 and N4 Interfaces...'
+echo '1.- Creating network bridges for inter-container connectivity: SBI; N2, N3 and N4; and NR-Uu Interfaces...'
 
 sudo ovs-vsctl add-br br-sbi
 sudo ovs-vsctl add-br br-n2-n3-n4
+sudo ovs-vsctl add-br br-nr-uu
 
 echo 'Done.'
 
@@ -51,8 +52,10 @@ echo '3.- Copying gNB and UE configuration files for UERANSIM containers...'
 
 sudo docker cp ../conf/ueransim/gnb.yaml clab-ueransim-gnb:/
 sudo docker exec -td clab-ueransim-gnb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
-sudo docker cp ../conf/ueransim/ue.yaml clab-ueransim-ue:/
-sudo docker exec -td clab-ueransim-ue /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
+sudo docker cp ../conf/ueransim/ue.yaml clab-ueransim-ue1:/
+sudo docker exec -td clab-ueransim-ue1 /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
+sudo docker cp ../conf/ueransim/ue.yaml clab-ueransim-ue2:/
+sudo docker exec -td clab-ueransim-ue2 /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
 
@@ -190,12 +193,14 @@ echo 'Done.'
 echo ''
 echo ''
 
-echo '16.- Starting Open5GS WebUI and registering UE subscriber identity...'
+echo '16.- Starting Open5GS WebUI and registering UEs/subscriber identities...'
 
 # Web UI credentials --> Username: admin / Password: 1423
 sudo docker exec -td clab-open5gs-5gc-webui /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /open5gs/webui'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000001 1'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000002 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000002 1'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'

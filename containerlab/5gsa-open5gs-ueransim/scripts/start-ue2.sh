@@ -3,7 +3,7 @@
 # MIT License
 # 
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
-#
+# 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -22,47 +22,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS (5G Core) and UERANSIM (1 gNB + 2 UEs) for 5G Standalone (SA)'
+echo 'Starting UERANSIM UE 2 (in foreground)...'
 
 echo ''
 echo ''
 
-echo 'Destroying scenario...'
+sudo docker exec -it clab-ueransim-ue2 /UERANSIM/build/nr-ue -c /ue.yaml
 
 echo ''
 echo ''
 
-echo '1.- Destroying Open5GS 5G Core topology...'
-
-sudo containerlab destroy --topo ../topologies/open5gs-5gc.yaml
-sudo rm -Rf clab-open5gs-5gc/
-sudo rm ../topologies/.open5gs-5gc.yaml.bak
-
-echo 'Done.'
+echo 'Interrupt signal detected - UE 2 execution finished.'
 
 echo ''
 echo ''
-
-echo '2.- Destroying UERANSIM (1 gNB + 2 UEs) topology...'
-
-sudo containerlab destroy --topo ../topologies/ueransim.yaml
-sudo rm -Rf clab-ueransim/
-sudo rm ../topologies/.ueransim.yaml.bak
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo '3.- Deleting Open vSwitch bridges...'
-
-sudo ovs-vsctl del-br br-sbi
-sudo ovs-vsctl del-br br-n2-n3-n4
-sudo ovs-vsctl del-br br-nr-uu
-
-echo 'Done.'
-
-echo ''
-echo ''
-
-echo 'All done. Scenario fully destroyed.'
