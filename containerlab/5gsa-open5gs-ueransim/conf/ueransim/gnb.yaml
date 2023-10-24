@@ -9,12 +9,12 @@ idLength: 32        # NR gNB ID length in bits [22...32]
 tac: 1              # Tracking Area Code
 
 linkIp: 10.1.1.10   # gNB's local IP address for Radio Link Simulation (Usually same with local IP)
-ngapIp: 10.100.1.4   # gNB's local IP address for N2 Interface (Usually same with local IP)
+ngapIp: 10.0.1.1   # gNB's local IP address for N2 Interface (Usually same with local IP)
 gtpIp: 10.100.1.4    # gNB's local IP address for N3 Interface (Usually same with local IP)
 
 # List of AMF address information
 amfConfigs:
-  - address: 10.100.1.1
+  - address: 10.0.1.2
     port: 38412
 
 # List of supported S-NSSAIs by this gNB

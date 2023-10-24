@@ -49,12 +49,17 @@ topology:
       exec:
         # NR-Uu Interface with UE (simulated RAN):
         - ifconfig eth1 10.1.1.10 netmask 255.255.255.0
-        # N2 (with AMF) and N3 (with UPF) Interfaces with 5G Core:
+        #  N3 (with UPF) Interface with 5G Core:
         - ifconfig eth2 10.100.1.4 netmask 255.255.255.0
+        # N2 (with AMF) interface with 5G Core:
+        - ifconfig eth3 10.0.1.1 netmask 255.255.255.0
+        
     
     # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4) .
     # NOTE: This bridge must be created before deploying the topology.
-    br-n2-n3-n4:
+    br-n3:
+      kind: ovs-bridge
+    br-n2:
       kind: ovs-bridge
     br-ue:
       kind: ovs-bridge
@@ -65,5 +70,7 @@ topology:
     - endpoints: ["ue:eth1", "br-ue:ue1"]
     - endpoints: ["ue2:eth1", "br-ue:ue2"]
     - endpoints: ["gnb:eth1", "br-ue:gnb"]
-    # N2 and N3 Interfaces:
-    - endpoints: ["gnb:eth2", "br-n2-n3-n4:gnb-n2-n3"]
+    # N3 Interface:
+    - endpoints: ["gnb:eth2", "br-n3:gnb-n3"]
+    # N2 Interface:
+    - endpoints: ["gnb:eth3", "br-n2:gnb-n2"]

@@ -602,11 +602,11 @@ smf:
       - addr: 10.254.1.8
         port: 7777
     pfcp:
-      - addr: 10.100.1.2
+      - addr: 10.0.0.2
     gtpc:
-      - addr: 10.100.1.2
+      - addr: 10.0.0.2
     gtpu:
-      - addr: 10.100.1.2
+      - addr: 10.0.0.2
     metrics:
       - addr: 127.0.0.4
     subnet:
@@ -808,7 +808,7 @@ scp:
 #
 upf:
     pfcp:
-      - addr: 10.100.1.3
+      - addr: 10.0.0.1
 
 #
 #  o Disable use of IPv4 addresses (only IPv6)

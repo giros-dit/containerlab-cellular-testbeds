@@ -30,8 +30,9 @@ echo ''
 echo '1.- Creating network bridges for inter-container connectivity: SBI; and N2, N3 and N4 Interfaces...'
 
 sudo ovs-vsctl add-br br-sbi
-sudo ovs-vsctl add-br br-n2-n3-n4
+sudo ovs-vsctl add-br br-n3
 sudo ovs-vsctl add-br br-ue
+sudo ovs-vsctl add-br br-n2
 
 echo 'Done.'
 

@@ -48,6 +48,7 @@ sessions:
     slice:
       sst: 4
       sd: 0x000100
+      qfi: 2
 
 # Configured NSSAI for this UE by HPLMN
 configured-nssai:

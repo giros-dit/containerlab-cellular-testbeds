@@ -69,8 +69,9 @@ echo ''
 echo '4.- Deleting Open vSwitch bridges...'
 
 sudo ovs-vsctl del-br br-sbi
-sudo ovs-vsctl del-br br-n2-n3-n4
+sudo ovs-vsctl del-br br-n3
 sudo ovs-vsctl del-br br-ue
+sudo ovs-vsctl del-br br-n2
 
 echo 'Done.'
 

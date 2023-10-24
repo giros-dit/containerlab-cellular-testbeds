@@ -6,7 +6,7 @@
       "prefix": "clab",
       "mgmt": {
         "network": "clab",
-        "bridge": "br-f7a16f42609d",
+        "bridge": "br-513b52b1503a",
         "ipv4-subnet": "172.20.20.0/24",
         "ipv4-gw": "172.20.20.1",
         "ipv6-subnet": "2001:172:20:20::/64",
@@ -34,7 +34,7 @@
       "mgmt-ipv6-prefix-length": 64,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-f7a16f42609d",
+        "clab-mgmt-net-bridge": "br-513b52b1503a",
         "clab-node-group": "",
         "clab-node-kind": "linux",
         "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-ueransim/scripts/clab-servertopo/server",
@@ -63,7 +63,7 @@
       "mgmt-ipv6-prefix-length": 0,
       "mac-address": "",
       "labels": {
-        "clab-mgmt-net-bridge": "br-f7a16f42609d",
+        "clab-mgmt-net-bridge": "br-513b52b1503a",
         "clab-node-group": "",
         "clab-node-kind": "bridge",
         "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-ueransim/scripts/clab-servertopo/virbr0",
@@ -81,13 +81,13 @@
       "a": {
         "node": "server",
         "interface": "eth1",
-        "mac": "aa:c1:ab:45:a9:62",
+        "mac": "aa:c1:ab:eb:c3:ac",
         "peer": "z"
       },
       "z": {
         "node": "virbr0",
         "interface": "serv-internet",
-        "mac": "aa:c1:ab:d8:a2:f5",
+        "mac": "aa:c1:ab:e7:ea:18",
         "peer": "a"
       }
     }
