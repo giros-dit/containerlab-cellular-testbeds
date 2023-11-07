@@ -1,0 +1,202 @@
+# MIT License
+# 
+# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+### Containerlab topology for Open5GS (LTE EPC - Evolved Packet Core) ###
+name: open5gs-epc
+
+### Custom management network
+mgmt:
+  network: custom_mgmt_1
+  ipv4-subnet: 172.48.196.0/24
+  ipv6-subnet: 2001:172:48:196::/80
+
+### Topology nodes (entities/elements) ###
+topology:
+  nodes:    
+    ### EPC Elements (Open5GS) ###
+
+    # HSS (Home Subscriber Server):
+    hss:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # S6a Interface:
+        - ifconfig eth1 10.100.2.2 netmask 255.255.255.252
+        # Interface with PCRF, MongoDB and WebUI:
+        - ifconfig eth2 10.100.3.1 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/hss.log
+    
+    # MME (Mobility Management Entity):
+    mme:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # S1-MME Interface:
+        - ifconfig eth1 10.100.1.1 netmask 255.255.255.0
+        # S6a Interface:
+        - ifconfig eth2 10.100.2.1 netmask 255.255.255.252
+        # S11 Interface:
+        - ifconfig eth3 10.100.4.1 netmask 255.255.255.252
+        # Logging file:
+        - touch /var/log/open5gs/mme.log
+
+    # MongoDB:
+    mongodb:
+      kind: linux
+      image: giros-dit/mongodb:latest
+      exec:
+        # Interface with HSS, PCRF and WebUI:
+        - ifconfig eth1 10.100.3.3 netmask 255.255.255.0
+
+    # PCRF (Policy and Charging Rules Function):
+    pcrf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # Interface with HSS, MongoDB and WebUI:
+        - ifconfig eth1 10.100.3.2 netmask 255.255.255.0
+        # Gx Interface:
+        - ifconfig eth2 10.100.6.1 netmask 255.255.255.252
+        # Logging file:
+        - touch /var/log/open5gs/pcrf.log
+
+    # PGW-C (Packet Gateway - Control Plane):
+    pgwc:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # S5c Interface:
+        - ifconfig eth1 10.100.5.2 netmask 255.255.255.252
+        # Gx Interface:
+        - ifconfig eth2 10.100.6.2 netmask 255.255.255.252
+        # Sxb & Sxu Interfaces:
+        - ifconfig eth3 10.100.8.1 netmask 255.255.255.252
+        # Logging file:
+        - touch /var/log/open5gs/pgwc.log
+
+    # PGW-U (Packet Gateway - User Plane):
+    pgwu:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # S5u Interface:
+        - ifconfig eth1 10.100.9.2 netmask 255.255.255.252
+        # Sxb & Sxu Interfaces:
+        - ifconfig eth3 10.100.8.2 netmask 255.255.255.252
+        # Logging file:
+        - touch /var/log/open5gs/pgwu.log
+        # Additional configurations:
+        # Obtaining IP address for SGi Interface (with PDN):
+        - dhclient eth2
+        # Configuring default route to use SGi Interface:
+        - ip route del default
+        - ip route add default via 192.168.122.1 dev eth2
+        # Configuring TUN interfaces for Open5GS - Internet traffic (internet APN):
+        - ip tuntap add name ogstun mode tun
+        - ip addr add 172.45.1.1/24 dev ogstun
+        - ip link set ogstun up
+        # Enabling IPv4 forwarding:
+        - sysctl -w net.ipv4.ip_forward=1
+        # Creating NAT rule for UEs to have connectivity:
+        - iptables -t nat -A POSTROUTING -s 172.45.1.0/24 ! -o ogstun -j MASQUERADE
+
+    # SGW-C (Serving Gateway - Control Plane):
+    sgwc:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # S11 Interface:
+        - ifconfig eth1 10.100.4.2 netmask 255.255.255.252
+        # S5c Interface:
+        - ifconfig eth2 10.100.5.1 netmask 255.255.255.252
+        # Sxa Interface:
+        - ifconfig eth3 10.100.7.1 netmask 255.255.255.252
+        # Logging file:
+        - touch /var/log/open5gs/sgwc.log
+
+    # SGW-U (Serving Gateway - User Plane):
+    sgwu:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # S1-U Interface:
+        - ifconfig eth1 10.100.1.10 netmask 255.255.255.0
+        # Sxa Interface:
+        - ifconfig eth2 10.100.7.2 netmask 255.255.255.252
+        # S5u Interface:
+        - ifconfig eth3 10.100.9.1 netmask 255.255.255.252
+        # Logging file:
+        - touch /var/log/open5gs/sgwu.log        
+    
+    # Open5GS WebUI:
+    webui:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # Interface with other HSS, PCRF and MongoDB:
+        - ifconfig eth1 10.100.3.4 netmask 255.255.255.0
+    
+    # S1-MME and S1-U Interfaces are implemented as an Open vSwitch bridge (br-s1).
+    # NOTE: This bridge must be created before deploying the topology.
+    br-s1:
+      kind: ovs-bridge
+
+    # Interfaces between HSS, PCRF, Subscriber Database (in MongoDB) and Open5GS WebUI
+    # are implemented as an Open vSwitch bridge (br-db).
+    # NOTE: This bridge must be created before deploying the topology.
+    br-db:
+      kind: ovs-bridge
+
+    # Open5GS EPC SGi Interface (to PDN) is implemented as a Linux bridge (virbr0).
+    # NOTE: This bridge must be created before deploying the topology.
+    # It is automatically created after installing the libvirt package (and does NAT by default).
+    # Subnet for this bridge is 192.168.122.0/24 (host is at 192.168.122.1).
+    virbr0:
+      kind: bridge
+
+  ### Links between entities (Interfaces) ###
+  links:
+    # S1-MME and S1-U Interfaces:
+    - endpoints: ["mme:eth1", "br-s1:mme"]
+    - endpoints: ["sgwu:eth1", "br-s1:sgwu"]
+    # S6a Interface:
+    - endpoints: ["hss:eth1", "mme:eth2"]
+    # Interfaces between HSS, PCRF, MongoDB and Open5GS WebUI:
+    - endpoints: ["hss:eth2", "br-db:hss"]
+    - endpoints: ["pcrf:eth1", "br-db:pcrf"]
+    - endpoints: ["mongodb:eth1", "br-db:mongodb"]
+    - endpoints: ["webui:eth1", "br-db:webui"]
+    # S11 Interface:
+    - endpoints: ["mme:eth3", "sgwc:eth1"]
+    # S5c Interface:
+    - endpoints: ["sgwc:eth2", "pgwc:eth1"]
+    # Gx Interface:
+    - endpoints: ["pcrf:eth2", "pgwc:eth2"]
+    # Sxa Interface:
+    - endpoints: ["sgwc:eth3", "sgwu:eth3"]
+    # Sxb and Sxu Interfaces:
+    - endpoints: ["pgwc:eth3", "pgwu:eth3"]
+    # S5u Interface:
+    - endpoints: ["sgwu:eth2", "pgwu:eth1"]
+    # SGi Interface:
+    - endpoints: ["pgwu:eth2", "virbr0:pgwu"]
