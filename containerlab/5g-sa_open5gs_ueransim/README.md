@@ -2,7 +2,7 @@
 
 ## Scenario diagram
 
-![](resources/5gsa-open5gs-ueransim.drawio.png)
+![](resources/5g-sa_open5gs_ueransim.drawio.png)
 
 ## Deploying the scenario
 

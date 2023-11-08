@@ -22,8 +22,8 @@
 
 # Dockerfile for UERANSIM containers.
 
-# The base image is Ubuntu 20.04 LTS ("focal").
-FROM ubuntu:focal
+# The base image is Ubuntu 22.04 LTS ("jammy").
+FROM ubuntu:jammy
 
 # Variables to automatically install/update tzdata.
 ARG DEBIAN_FRONTEND=noninteractive

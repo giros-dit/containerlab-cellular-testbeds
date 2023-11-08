@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Dockerfile for MongoDB container.
+# Dockerfile for srsRAN 4G.
 
 # The base image is Ubuntu 22.04 LTS ("jammy").
 FROM ubuntu:jammy
@@ -34,13 +34,16 @@ RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 
 # Install some basic tools and dependencies.
 RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
-    openssh-server tcpdump unzip subversion git curl wget gnupg
+    openssh-server tcpdump unzip subversion git curl wget gnupg software-properties-common
 
-# Install MongoDB and Open5GS's open5gs-dbctl tool.
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
-RUN echo "deb [arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-RUN apt update && apt install -y mongodb-org
-RUN wget https://raw.githubusercontent.com/open5gs/open5gs/main/misc/db/open5gs-dbctl && chmod +x open5gs-dbctl
+# Install the srsRAN 4G software suite from the official PPA repository.
+RUN add-apt-repository -y ppa:softwareradiosystems/srsran && apt update && apt install -y srsran
+
+# Install UHD from the official PPA repository.
+RUN add-apt-repository -y ppa:ettusresearch/uhd && apt update && apt install -y libuhd-dev uhd-host
+
+# Install USRP firmware images.
+RUN uhd_images_downloader
 
 # Finally, create an administration user, set a password for the root user and enable SSH access.
 # Reference: https://medium.com/@leicao.me/how-to-ssh-into-a-docker-container-remotely-as-root-or-a-non-root-user-b2105c797273
