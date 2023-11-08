@@ -117,22 +117,22 @@ echo ''
 echo ''
 echo ''
 
-echo '9.- Copying PGW-C configuration file and starting its daemon...'
+echo '9.- Copying PGW-C/SMF configuration file and starting its daemon...'
 
-sudo docker cp ../conf/open5gs/pgwc.yaml clab-open5gs-epc-pgwc:/
-sudo docker exec -td clab-open5gs-epc-pgwc /open5gs/install/bin/open5gs-smfd -c /pgwc.yaml
-sudo docker exec -td clab-open5gs-epc-pgwc /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
+sudo docker cp ../conf/open5gs/smf.yaml clab-open5gs-epc-smf:/
+sudo docker exec -td clab-open5gs-epc-smf /open5gs/install/bin/open5gs-smfd -c /smf.yaml
+sudo docker exec -td clab-open5gs-epc-smf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
 
 echo ''
 echo ''
 
-echo '10.- Copying PGW-U configuration file and starting its daemon...'
+echo '10.- Copying PGW-U/UPF configuration file and starting its daemon...'
 
-sudo docker cp ../conf/open5gs/pgwu.yaml clab-open5gs-epc-pgwu:/
-sudo docker exec -td clab-open5gs-epc-pgwu /open5gs/install/bin/open5gs-upfd -c /pgwu.yaml
-sudo docker exec -td clab-open5gs-epc-pgwu /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
+sudo docker cp ../conf/open5gs/upf.yaml clab-open5gs-epc-upf:/
+sudo docker exec -td clab-open5gs-epc-upf /open5gs/install/bin/open5gs-upfd -c /upf.yaml
+sudo docker exec -td clab-open5gs-epc-upf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
 

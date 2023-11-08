@@ -80,8 +80,8 @@ topology:
         # Logging file:
         - touch /var/log/open5gs/pcrf.log
 
-    # PGW-C (Packet Gateway - Control Plane):
-    pgwc:
+    # PGW-C (Packet Gateway - Control Plane) / SMF (Session Management Function):
+    smf:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
@@ -92,10 +92,10 @@ topology:
         # Sxb & Sxu Interfaces:
         - ifconfig eth3 10.100.8.1 netmask 255.255.255.252
         # Logging file:
-        - touch /var/log/open5gs/pgwc.log
+        - touch /var/log/open5gs/smf.log
 
-    # PGW-U (Packet Gateway - User Plane):
-    pgwu:
+    # PGW-U (Packet Gateway - User Plane) / UPF (User Plane Function):
+    upf:
       kind: linux
       image: giros-dit/open5gs:latest
       exec:
@@ -104,7 +104,7 @@ topology:
         # Sxb & Sxu Interfaces:
         - ifconfig eth3 10.100.8.2 netmask 255.255.255.252
         # Logging file:
-        - touch /var/log/open5gs/pgwu.log
+        - touch /var/log/open5gs/upf.log
         # Additional configurations:
         # Obtaining IP address for SGi Interface (with PDN):
         - dhclient eth2
