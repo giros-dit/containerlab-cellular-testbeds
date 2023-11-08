@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS EPC for LTE, 4G and 5G Non-Standalone (NSA) with physical RAN'
+echo 'Containerlab scenario for 4G-LTE with Open5GS EPC and srsRAN 4G eNB'
 
 echo ''
 echo ''
@@ -144,10 +144,9 @@ echo '11.- Starting Open5GS WebUI and registering UEs/subscriber identities...'
 # Web UI credentials --> Username: admin / Password: 1423
 sudo docker exec -td clab-open5gs-epc-webui /bin/bash -c 'export DB_URI=mongodb://10.100.3.3/open5gs && npm run dev --prefix /open5gs/webui'
 sudo docker exec -td clab-open5gs-epc-webui /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
-sudo docker exec -td clab-open5gs-epc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
-sudo docker exec -td clab-open5gs-epc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000001 1'
-sudo docker exec -td clab-open5gs-epc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000002 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
-sudo docker exec -td clab-open5gs-epc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000002 1'
+# Register subscribers using the following commands as templates, or use WebUI if preferred.
+# sudo docker exec -td clab-open5gs-epc-mongodb /bin/bash -c '/open5gs-dbctl add <imsi> <ki> <opc>'
+# sudo docker exec -td clab-open5gs-epc-mongodb /bin/bash -c '/open5gs-dbctl type <imsi> 1'
 
 echo 'Done.'
 

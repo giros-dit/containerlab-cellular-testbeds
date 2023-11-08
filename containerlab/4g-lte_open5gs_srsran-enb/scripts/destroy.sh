@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo 'Containerlab scenario with Open5GS EPC for LTE, 4G and 5G Non-Standalone (NSA) with physical RAN'
+echo 'Containerlab scenario for 4G-LTE with Open5GS EPC and srsRAN 4G eNB'
 
 echo ''
 echo ''
