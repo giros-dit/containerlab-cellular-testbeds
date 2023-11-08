@@ -140,7 +140,7 @@ topology:
       image: giros-dit/open5gs:latest
       exec:
         # S1-U Interface:
-        - ifconfig eth1 10.100.1.10 netmask 255.255.255.0
+        - ifconfig eth1 10.100.1.2 netmask 255.255.255.0
         # Sxa Interface:
         - ifconfig eth2 10.100.7.2 netmask 255.255.255.252
         # S5u Interface:
