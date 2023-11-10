@@ -6,7 +6,7 @@ The main goal of this repository is to provide testbed scenarios for cellular mo
 
 While _Docker_ provides _Docker Compose_ for defining and deploying complex, multi-container scenarios, the networking part of it (inter-container connectivity) is arguably still a little bit complicated. Therefore, it is interesting to use other tools that simplify this task, so here is where _Containerlab_ comes into play. This tool provides an easy way of defining network topologies and scenarios by using a standard definition language (YAML). And by leveraging existent _Linux_ bridging and switching software, such as _Open vSwitch_, we can use it to define custom, modular scenarios that can be interconnected in a handful of different ways.
 
-The idea is to provide different scenarios that can be used to deploy and test complete cellular networks. The core network is provided using _Containerlab_ topologies, and the RAN can be either deployed using any simulated or _physical_ implementations of your choice. The scenarios can be interconnected, so it is possible to, for example, add an IMS and provide VoLTE, or extend the networks in any way you may imagine.
+The idea is to provide different scenarios that can be used to deploy and test complete cellular networks. The core network is provided using _Containerlab_ topologies, and the RAN can be deployed using any simulated or _physical_ implementation. The scenarios can be interconnected, so it is possible to, for example, add an IMS and provide VoLTE, or extend the networks in any way you may imagine.
 
 ### Requisites
 
@@ -32,6 +32,10 @@ In order to run the scenarios, you need to have the following:
 		<td>Open source 3GPP Rel-17 compliant implementation of 4G-LTE EPC (Evolved Packet Core) and 5G Core.</td>
 	</tr>
 	<tr>
+		<td><a href="https://www.srslte.com/"><img src="resources/images/srsran-logo.png"></a></td>
+		<td>Open source 3GPP-compliant 4G-LTE and 5G software suites.</td>
+	</tr>
+	<tr>
 		<td><a href="https://github.com/aligungr/UERANSIM"><img src="resources/images/ueransim-logo.png"></a></td>
 		<td>Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and RAN (Radio Access Network) gNB simulation.</td>
 	</tr>
@@ -47,6 +51,14 @@ You need to build the _Docker_ images for all containers. Follow these steps (as
 # For UERANSIM containers:
 $ cd docker/ueransim/
 $ sudo docker build --no-cache -t giros-dit/ueransim:latest .
+
+# For srsRAN 4G (4G-LTE RAN) containers:
+$ cd docker/srsran-4g/
+$ sudo docker build --no-cache -t giros-dit/srsran-4g:latest .
+
+# For srsRAN Project (5G RAN) containers:
+$ cd docker/srsran-project/
+$ sudo docker build --no-cache -t giros-dit/srsran-project:latest .
 
 # For Open5GS containers:
 $ cd docker/open5gs/
