@@ -33,7 +33,7 @@ In order to run the scenarios, you need to have the following:
 	</tr>
 	<tr>
 		<td><a href="https://www.srslte.com/"><img src="resources/images/srsran-logo.png"></a></td>
-		<td>Open source 3GPP-compliant 4G-LTE and 5G software suites.</td>
+		<td>Open source 3GPP compliant 4G-LTE and 5G software suites.</td>
 	</tr>
 	<tr>
 		<td><a href="https://github.com/aligungr/UERANSIM"><img src="resources/images/ueransim-logo.png"></a></td>
