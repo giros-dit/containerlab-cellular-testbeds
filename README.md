@@ -25,9 +25,9 @@ In order to run the scenarios, you need to have the following:
 | Implementation | Description |
 |:-:|---|
 | [![](resources/images/clab-logo.png 'Containerlab')](https://containerlab.dev/) | Tool for orchestrating and managing container-based networking laboratories. |
-| ![https://open5gs.org](resources/images/open5gs-logo.png) | Open source 3GPP Rel-17 compliant implementation of 4G-LTE EPC (Evolved Packet Core) and 5G Core. |
-| ![https://www.srslte.com/](resources/images/srsran-logo.png) | Open source 3GPP compliant 4G-LTE and 5G software suites. |
-| ![https://github.com/aligungr/UERANSIM](resources/images/ueransim-logo.png) | Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and gNodeB simulation. |
+| [![](resources/images/open5gs-logo.png 'Open5GS')](https://open5gs.org) | Open source 3GPP Rel-17 compliant implementation of 4G-LTE EPC (Evolved Packet Core) and 5G Core. |
+| [![](resources/images/srsran-logo.png 'srsRAN')](https://www.srslte.com/) | Open source 3GPP compliant 4G-LTE and 5G software suites. |
+| [![](resources/images/ueransim-logo.png 'UERANSIM')](https://github.com/aligungr/UERANSIM) | Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and gNodeB simulation. |
 
 ## General instructions
 
