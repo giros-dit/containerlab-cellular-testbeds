@@ -22,6 +22,12 @@ In order to run the scenarios, you need to have the following:
 
 ### Featured implementations
 
+|:-:|---|
+| ![https://containerlab.dev/](resources/images/clab-logo.png) | Tool for orchestrating and managing container-based networking laboratories. |
+| ![https://open5gs.org](resources/images/open5gs-logo.png) | Open source 3GPP Rel-17 compliant implementation of 4G-LTE EPC (Evolved Packet Core) and 5G Core. |
+| ![https://www.srslte.com/](resources/images/srsran-logo.png) | Open source 3GPP compliant 4G-LTE and 5G software suites. |
+| ![https://github.com/aligungr/UERANSIM](resources/images/ueransim-logo.png) | Open source 3GPP Rel-15 compliant implementation of 5G UE (User Equipment) and gNodeB simulation. |
+
 <table align="left">
 	<tr>
 		<td><a href="https://containerlab.dev/"><img src="resources/images/clab-logo.png"></a></td>
@@ -80,18 +86,18 @@ In the ![`containerlab`](containerlab) directory there are several subdirectorie
 
 ### 3.- Capturing traffic with _Wireshark_
 
-This command serves as a template to capture traffic with _Wireshark_ in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-iface>` with the desired network interface inside the container.
+This command serves as a template to capture traffic with _Wireshark_ in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-interface>` with the desired network interface inside the container.
 The name of the container can be obtained right after deploying the topology.
 
 ```
-$ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-iface> -w - | wireshark -k -i -
+$ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-interface> -w - | wireshark -k -i -
 ```
 
 If the above command does not work, you can directly open Wireshark, select the desired container interface and start capturing traffic right away.
 
 **NOTE:** It is recommended to enable all protocols under the `Analyze` -> `Enabled protocols` menu from the top bar.
 
-### Other.- SSH access to containers
+### Other - SSH access to containers
 
 You can SSH to the containers deployed in any scenario with the following set of credentials:
 - Username: `root` - Password: `gprsumts`.
