@@ -13,11 +13,11 @@ The idea is to provide different scenarios that can be used to deploy and test c
 In order to run the scenarios, you need to have the following:
 - A machine running either a native or virtualized 64-bit _Linux_ operating system with a fairly good amount of available RAM and storage.
 	- Depending on your system limitations and the usage of your operating system, a good, minimum recommendation would be to have 16 GB of RAM and 128 GB of storage. However, a more limited system could also run these scenarios without issues.
-	- Since the core functionality of the scenarios runs on _Docker_ containers, any _Linux_ distribution can be used. However, for maximum compatibility of libraries and dependencies we have used _Ubuntu 20.04 LTS_. You may want to use this or a newer version. Nevertheless, if you prefer another distribution, feel free to use it, but notice that the installation instructions for any library and dependency will vary.
+	- Since the core functionality of the scenarios runs on _Docker_ containers, any _Linux_ distribution can be used. However, for maximum compatibility of libraries and dependencies we have used _Ubuntu 20.04 LTS_ and _Ubuntu 22.04 LTS_. You may want to use these or newer versions. Nevertheless, if you prefer another distribution, feel free to use it, but notice that the installation instructions for any library and dependency will vary.
 	- If you use _Windows_ 10 or 11, _WSL2_ may work, but bear in mind that we haven't tested it.
 - You can find the installation instructions for _Containerlab_ along with more documentation at this link: https://containerlab.dev/install/. This tool relies on _Docker_, so you must also install it on your machine.
 - Some inter-container connectivity relies on _Open vSwitch_ bridges, so you must install it as well.
-- The connectivity between _Containerlab_ topologies and between scenarios and the Internet is done via the `virbr0` bridge provided by the `libvirt` library, so you must install it.
+- The connectivity between _Containerlab_ topologies, and between scenarios and the Internet is done via the `virbr0` bridge provided by the `libvirt` library, so you must install it.
 - For traffic capturing, you need to install _Wireshark_ on your system.
 
 ### Featured implementations
@@ -40,11 +40,11 @@ You need to build the _Docker_ images for all containers. Follow these steps (as
 $ cd docker/ueransim/
 $ sudo docker build --no-cache -t giros-dit/ueransim:latest .
 
-# For srsRAN 4G (4G-LTE RAN) containers:
+# For srsRAN 4G containers:
 $ cd docker/srsran-4g/
 $ sudo docker build --no-cache -t giros-dit/srsran-4g:latest .
 
-# For srsRAN Project (5G RAN) containers:
+# For srsRAN Project containers:
 $ cd docker/srsran-project/
 $ sudo docker build --no-cache -t giros-dit/srsran-project:latest .
 
@@ -61,7 +61,7 @@ $ sudo docker build --no-cache -t giros-dit/mongodb:latest .
 
 In the ![`containerlab`](containerlab) directory there are several subdirectories with different testbed scenarios that can be used. Inside each subdirectory you can find the following structure:
 
-- A `README` file with information and instructions about the scenario.
+- A `README` file with information about the scenario and instructions on how to deploy, destroy and interact with it.
 - A `conf` subdirectory with configuration files for each container that composes the scenario.
 - A `topologies` subdirectory with _Containerlab_ topology definition files for the scenario.
 - A `scripts` subdirectory with shell scripts for deploying/destroying/interacting with the scenario.
@@ -69,13 +69,13 @@ In the ![`containerlab`](containerlab) directory there are several subdirectorie
 ### 3.- Capturing traffic with _Wireshark_
 
 This command serves as a template to capture traffic with _Wireshark_ in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-interface>` with the desired network interface inside the container.
-The name of the container can be obtained right after deploying the topology.
+The name of the container can be obtained right after deploying the topology or by executing the `docker container ps -a` command.
 
 ```
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-interface> -w - | wireshark -k -i -
 ```
 
-If the above command does not work, you can directly open Wireshark, select the desired container interface and start capturing traffic right away.
+If the above command does not work, you can directly open _Wireshark_, select the desired container interface and start capturing traffic right away.
 
 **NOTE:** It is recommended to enable all protocols under the `Analyze` -> `Enabled protocols` menu from the top bar.
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # MIT License
-# 
+#
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -10,10 +10,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -194,15 +194,12 @@ echo ''
 echo ''
 
 # WIP: These commands may fail...
-echo '16. Creating, configuring and starting gNodeB container...'
+echo '16. Creating, configuring and starting srsRAN gNodeB container...'
 
-sudo docker create --privileged --volume /dev:/dev --volume /proc:/proc --name gnb giros-dit/srsran-project:latest
-sleep 5
-sudo ovs-docker add-port br-n2-n3-n4 eth0 gnb --ipaddress=10.100.1.4/24 --gateway=10.100.1.1
-sleep 5
-sudo docker cp ../conf/srsran/gnb_rf_b210.yaml gnb:/
-sleep 5
-sudo docker exec --privileged -td gnb /bin/bash -c 'gnb -c /gnb_rf_b210.yaml'
+sudo docker run -dit --privileged --volume /dev:/dev --volume /proc:/proc --name srsran-gnb giros-dit/srsran-project:latest
+sudo ovs-docker add-port br-n2-n3-n4 eth1 srsran-gnb --ipaddress=10.100.1.4/24 --gateway=10.100.1.1
+sudo docker cp ../conf/srsran/gnb_rf_b210.yaml srsran-gnb:/
+#sudo docker exec --privileged -td gnb /bin/bash -c 'gnb -c /gnb_rf_b210.yaml'
 
 echo 'Done.'
 

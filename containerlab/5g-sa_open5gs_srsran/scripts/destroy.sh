@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # MIT License
-# 
+#
 # Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -10,10 +10,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,7 +43,17 @@ echo 'Done.'
 echo ''
 echo ''
 
-echo '2.- Deleting Open vSwitch bridges...'
+echo '2.- Destroying srsRAN gNodeB container...'
+
+sudo docker kill srsran-gnb
+sudo docker container rm srsran-gnb
+
+echo 'Done.'
+
+echo ''
+echo ''
+
+echo '3.- Deleting Open vSwitch bridges...'
 
 sudo ovs-vsctl del-br br-sbi
 sudo ovs-vsctl del-br br-n2-n3-n4
