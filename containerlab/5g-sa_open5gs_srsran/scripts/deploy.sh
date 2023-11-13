@@ -193,4 +193,20 @@ echo 'Done.'
 echo ''
 echo ''
 
+# WIP: These commands may fail...
+echo '16. Creating, configuring and starting gNodeB container...'
+
+sudo docker create --privileged --volume /dev:/dev --volume /proc:/proc --name gnb giros-dit/srsran-project:latest
+sleep 5
+sudo ovs-docker add-port br-n2-n3-n4 eth0 gnb --ipaddress=10.100.1.4/24 --gateway=10.100.1.1
+sleep 5
+sudo docker cp ../conf/srsran/gnb_rf_b210.yaml gnb:/
+sleep 5
+sudo docker exec --privileged -td gnb /bin/bash -c 'gnb -c /gnb_rf_b210.yaml'
+
+echo 'Done.'
+
+echo ''
+echo ''
+
 echo 'All done. Scenario fully deployed.'
