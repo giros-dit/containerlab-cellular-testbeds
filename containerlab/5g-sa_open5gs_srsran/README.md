@@ -1,4 +1,4 @@
-# 5G Standalone (5G SA) with _Open5GS_ and _srsRAN Project gNodeB_
+# 5G Standalone (5G SA) with _Open5GS_ and _srsRAN Project_ gNodeB
 
 ## Scenario diagram
 
