@@ -22,6 +22,7 @@ In order to run the scenarios, you need to have the following:
 
 ### Featured implementations
 
+| Implementation | Description |
 |:-:|---|
 | ![https://containerlab.dev/](resources/images/clab-logo.png) | Tool for orchestrating and managing container-based networking laboratories. |
 | ![https://open5gs.org](resources/images/open5gs-logo.png) | Open source 3GPP Rel-17 compliant implementation of 4G-LTE EPC (Evolved Packet Core) and 5G Core. |
