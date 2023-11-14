@@ -41,26 +41,28 @@ $ ./start-ue2.sh
 Open a new terminal tab or window and execute the following:
 
 ```
-$ ssh -X admin@clab-ueransim-ue1
+$ ssh -X root@clab-ueransim-ue1
 ```
 (for UE 1)
 
 ```
-$ ssh -X admin@clab-ueransim-ue2
+$ ssh -X root@clab-ueransim-ue2
 ```
 (for UE 2)
 
-Password is `admintelecom`.
+Password is `gprsumts`.
 
 Once logged in, execute the following command to launch an instance of Firefox attached to the GTP interface:
 
 ```
-$ /UERANSIM/build/nr-binder 172.45.1.2 firefox
+$ cd /UERANSIM/build
+$ ./nr-binder 172.45.1.2 firefox
 ```
 (for UE 1)
 
 ```
-$ /UERANSIM/build/nr-binder 172.45.1.3 firefox
+$ cd /UERANSIM/build
+$ ./nr-binder 172.45.1.3 firefox
 ```
 (for UE 2)
 

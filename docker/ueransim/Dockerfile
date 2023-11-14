@@ -35,7 +35,15 @@ RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 # Install some basic tools and dependencies.
 RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
     xauth openssh-server tcpdump unzip subversion git curl wget gcc make perl g++ \
-    libsctp-dev lksctp-tools libssl-dev ffmpeg firefox
+    software-properties-common libsctp-dev lksctp-tools libssl-dev ffmpeg
+
+# Install Firefox from the official PPA repository.
+RUN add-apt-repository -y ppa:mozillateam/ppa
+RUN touch /etc/apt/preferences.d/mozilla-firefox
+RUN echo 'Package: *' >> /etc/apt/preferences.d/mozilla-firefox
+RUN echo 'Pin: release o=LP-PPA-mozillateam' >> /etc/apt/preferences.d/mozilla-firefox
+RUN echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mozilla-firefox
+RUN apt update && apt install -y firefox
 
 # Download and extract cmake source code (latest stable version as of March 21, 2023: 3.26.0)
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.0/cmake-3.26.0.tar.gz
