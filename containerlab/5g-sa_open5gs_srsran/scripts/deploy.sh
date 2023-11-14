@@ -193,13 +193,11 @@ echo 'Done.'
 echo ''
 echo ''
 
-# WIP: These commands may fail...
-echo '16. Creating, configuring and starting srsRAN gNodeB container...'
+echo '16. Creating and configuring srsRAN gNodeB container...'
 
 sudo docker run -dit --privileged --volume /dev:/dev --volume /proc:/proc --name srsran-gnb giros-dit/srsran-project:latest
 sudo ovs-docker add-port br-n2-n3-n4 eth1 srsran-gnb --ipaddress=10.100.1.4/24 --gateway=10.100.1.1
 sudo docker cp ../conf/srsran/gnb_rf_b210.yaml srsran-gnb:/
-#sudo docker exec --privileged -td gnb /bin/bash -c 'gnb -c /gnb_rf_b210.yaml'
 
 echo 'Done.'
 
