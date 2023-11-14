@@ -13,7 +13,7 @@ amf:
   # A local IP that the gNB binds to for traffic from the AMF.
   bind_addr: 10.100.1.4
 
-ru_sdr:
+rf_driver:
   # The RF driver name.
   device_driver: uhd
   # Optionally pass arguments to the selected RF driver.
@@ -27,11 +27,11 @@ ru_sdr:
 
 cell_cfg:
   # ARFCN of the downlink carrier (center frequency).
-  dl_arfcn: 368640
+  dl_arfcn: 191980
   # The NR band.
-  band: 3
+  band: 8
   # Bandwith in MHz. Number of PRBs will be automatically derived.
-  channel_bandwidth_MHz: 20
+  channel_bandwidth_MHz: 10
   # Subcarrier spacing in kHz used for data.
   common_scs: 15
   # PLMN broadcasted by the gNB.
