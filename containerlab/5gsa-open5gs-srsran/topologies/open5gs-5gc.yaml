@@ -1,0 +1,237 @@
+# MIT License
+# 
+# Copyright (c) 2023 Networking and Virtualization Research Group (GIROS DIT-UPM).
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+### Containerlab topology for Open5GS (5G Core) ###
+name: open5gs-5gc
+
+### Custom management network
+mgmt:
+  network: custom_mgmt
+  ipv4-subnet: 172.48.196.0/24
+  ipv6-subnet: 2001:172:48:196::/80
+
+### Topology nodes (entities/elements) ###
+topology:
+  nodes:    
+    ### 5G Core Elements (Open5GS) ###
+
+    # AMF (Access and Mobility Management Function):
+    amf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # N2 Interface with gNB:
+        - ifconfig eth1 10.0.1.2 netmask 255.255.255.0
+        # SBI Interface:
+        - ifconfig eth2 10.254.1.1 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/amf.log
+    
+    # AUSF (Authentication Server Function):
+    ausf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.2 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/ausf.log
+
+    # BSF (Binding Support Function):
+    bsf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.3 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/bsf.log
+
+    # MongoDB:
+    mongodb:
+      kind: linux
+      image: giros-dit/mongodb:latest
+      exec:
+        # Interface with other Open5GS containers:
+        - ifconfig eth1 10.254.1.100 netmask 255.255.255.0
+
+    # NRF (Network Repository Function):
+    nrf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.4 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/nrf.log
+
+    # NSSF (Network Slice Selection Function):
+    nssf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.5 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/nssf.log
+
+    # PCF (Policy Control Function):
+    pcf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.6 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/pcf.log
+
+    # SCP (Service Communication Proxy):
+    scp:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.7 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/scp.log
+
+    # SMF (Session Management Function):
+    smf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # N4 (N4 and N4u) Interfaces with UPF:
+        - ifconfig eth1 10.0.0.2 netmask 255.255.255.0
+        # SBI Interface:
+        - ifconfig eth2 10.254.1.8 netmask 255.255.255.0       
+        # Logging file:
+        - touch /var/log/open5gs/smf.log
+
+    # UDM (Unified Data Management):
+    udm:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.9 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/udm.log
+
+    # UDR (Unified Data Repository):
+    udr:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # SBI Interface:
+        - ifconfig eth1 10.254.1.10 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/udr.log
+
+    # UPF (User Plane Function):
+    upf:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # N3 (with gNB) Interface:
+        - ifconfig eth1 10.100.1.3 netmask 255.255.255.0
+        # N4 (with SMF) Interface
+        - ifconfig eth3 10.0.0.1 netmask 255.255.255.0
+        # Logging file:
+        - touch /var/log/open5gs/upf.log
+        # Additional configurations:
+        # Obtaining IP address for N6 Interface (with PDN):
+        - dhclient eth2
+        # Configuring default route to use N6 Interface:
+        - ip route del default
+        - ip route add default via 192.168.122.1 dev eth2
+        - ip route add 10.0.1.0/24 via 10.100.1.4 dev eth1
+        # Configuring TUN interfaces for Open5GS - Internet traffic (internet APN):
+        - ip tuntap add name ogstun mode tun
+        - ip addr add 172.45.1.1/24 dev ogstun
+        - ip link set ogstun up
+        # Enabling IPv4 forwarding:
+        - sysctl -w net.ipv4.ip_forward=1
+        # Creating NAT rule for UEs to have connectivity:
+        - iptables -t nat -A POSTROUTING -s 172.45.1.0/24 ! -o ogstun -j MASQUERADE
+    
+    # Open5GS WebUI:
+    webui:
+      kind: linux
+      image: giros-dit/open5gs:latest
+      exec:
+        # Interface with other Open5GS containers:
+        - ifconfig eth1 10.254.1.200 netmask 255.255.255.0
+    
+    # N2, N3 and N4 Interfaces are implemented as an Open vSwitch bridge (br-n2-n3-n4).
+    # NOTE: This bridge must be created before deploying the topology.
+    br-n3:
+      kind: ovs-bridge
+      
+    br-n2:
+      kind: ovs-bridge
+      
+    # Open5GS 5G Core Service Based Interface (SBI) is implemented as an Open vSwitch bridge (br-sbi).
+    # NOTE: This bridge must be created before deploying the topology.
+    br-sbi:
+      kind: ovs-bridge
+
+    # Open5GS 5G Core N6 Interface (to PDN) is implemented as a Linux bridge (virbr0).
+    # NOTE: This bridge must be created before deploying the topology.
+    # It is automatically created after installing the libvirt package (and does NAT by default).
+    # Subnet for this bridge is 192.168.122.0/24 (host is at 192.168.122.1).
+    virbr0:
+      kind: bridge
+
+  ### Links between entities (Interfaces) ###
+  links:
+    # N3 Interface:
+    - endpoints: ["upf:eth1", "br-n3:upf-n3"]
+    # N2
+    - endpoints: ["amf:eth1", "br-n2:amf-n2"]    
+    # N4
+    - endpoints: ["upf:eth3", "smf:eth1"]
+    # N6 Interface:
+    - endpoints: ["upf:eth2", "virbr0:upf-n6"]
+    # AMF-SBI (N8, N11, N12 and N15 Interfaces):
+    - endpoints: ["amf:eth2", "br-sbi:amf-sbi"]
+    # SMF-SBI (N7, N10 and N11 Interfaces):
+    - endpoints: ["smf:eth2", "br-sbi:smf-sbi"]
+    # PCF-SBI (N7, N15 and N36 Interfaces):
+    - endpoints: ["pcf:eth1", "br-sbi:pcf-sbi"]
+    # UDR-SBI (N35 and N36 Interfaces):
+    - endpoints: ["udr:eth1", "br-sbi:udr-sbi"]
+    # UDM-SBI (N8, N10, N13 and N35 Interfaces):
+    - endpoints: ["udm:eth1", "br-sbi:udm-sbi"]
+    # AUSF-SBI (N12 and N13 Interfaces):
+    - endpoints: ["ausf:eth1", "br-sbi:ausf-sbi"]
+    # NRF-SBI:
+    - endpoints: ["nrf:eth1", "br-sbi:nrf-sbi"]
+    # NSSF-SBI:
+    - endpoints: ["nssf:eth1", "br-sbi:nssf-sbi"]
+    # BSF-SBI:
+    - endpoints: ["bsf:eth1", "br-sbi:bsf-sbi"]
+    # SCP-SBI:
+    - endpoints: ["scp:eth1", "br-sbi:scp-sbi"]
+    # MongoDB Interface with Open5GS components:
+    - endpoints: ["mongodb:eth1", "br-sbi:mongodb"]
+    # Open5GS WebUI Interface with other components:
+    - endpoints: ["webui:eth1", "br-sbi:webui"]

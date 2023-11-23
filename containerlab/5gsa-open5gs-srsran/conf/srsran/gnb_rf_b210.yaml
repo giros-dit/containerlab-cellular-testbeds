@@ -1,0 +1,63 @@
+# Example configuration file to create a single cell using a USRP B210 as the RF frontend.
+# NR-ARFCN, band, bandwidth and subcarrier spacing can be configured on demand.
+
+# Sets the numerical ID associated with the gNB.
+gnb_id: 1
+
+# Sets the text ID associated with the gNB.
+ran_node_name: srsgnb_giros-dit_1
+
+amf:
+  # The address or hostname of the AMF.
+  addr: 10.0.1.2
+  # A local IP that the gNB binds to for traffic from the AMF.
+  bind_addr: 10.0.1.1
+
+ru_sdr:
+  # The RF driver name.
+  device_driver: uhd
+  # Optionally pass arguments to the selected RF driver.
+  device_args: type=b200
+  # RF sample rate might need to be adjusted according to selected bandwidth.
+  srate: 11.52
+  # Transmit gain of the RF might need to adjusted to the given situation.
+  tx_gain: 75
+  # Receive gain of the RF might need to adjusted to the given situation.                                                   
+  rx_gain: 75
+
+cell_cfg:
+  # ARFCN of the downlink carrier (center frequency).
+  dl_arfcn: 189000
+  # The NR band.
+  band: 8
+  # Bandwith in MHz. Number of PRBs will be automatically derived.
+  channel_bandwidth_MHz: 10
+  # Subcarrier spacing in kHz used for data.
+  common_scs: 15
+  # PLMN broadcasted by the gNB.
+  plmn: "00101"
+  # Tracking area code (needs to match the core configuration).
+  tac: 7
+  pdcch:
+    dedicated:
+      ss2_type: common              # Search Space type, has to be set to common
+      dci_format_0_1_and_1_1: false # Set correct DCI format (fallback)
+  prach:
+    prach_config_index: 1
+
+log:
+  # Path of the log file.
+  filename: /tmp/gnb.log
+  # Logging level applied to all layers.
+  all_level: info
+
+pcap:
+  # Set to true to enable MAC-layer PCAPs.
+  mac_enable: false
+  # Path where the MAC PCAP is stored.
+  mac_filename: /tmp/gnb_mac.pcap
+  # Set to true to enable NGAP PCAPs.
+  ngap_enable: false
+  # Path where the NGAP PCAP is stored.
+  ngap_filename: /tmp/gnb_ngap.pcap
+    

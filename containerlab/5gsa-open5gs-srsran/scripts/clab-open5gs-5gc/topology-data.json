@@ -1,0 +1,812 @@
+{
+  "name": "open5gs-5gc",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "custom_mgmt",
+        "bridge": "br-26fec05530bb",
+        "ipv4-subnet": "172.48.196.0/24",
+        "ipv4-gw": "172.48.196.1",
+        "ipv6-subnet": "2001:172:48:196::/80",
+        "ipv6-gw": "2001:172:48:196::1",
+        "mtu": "1500",
+        "external-access": true
+      }
+    }
+  },
+  "nodes": {
+    "amf": {
+      "index": "0",
+      "shortname": "amf",
+      "longname": "clab-open5gs-5gc-amf",
+      "fqdn": "amf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/amf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.10",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::a",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/amf",
+        "clab-node-name": "amf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "ausf": {
+      "index": "1",
+      "shortname": "ausf",
+      "longname": "clab-open5gs-5gc-ausf",
+      "fqdn": "ausf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/ausf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.7",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::7",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/ausf",
+        "clab-node-name": "ausf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "br-n2": {
+      "index": "2",
+      "shortname": "br-n2",
+      "longname": "clab-open5gs-5gc-br-n2",
+      "fqdn": "br-n2.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/br-n2",
+      "kind": "ovs-bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "ovs-bridge",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/br-n2",
+        "clab-node-name": "br-n2",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+      ]
+    },
+    "br-n3": {
+      "index": "3",
+      "shortname": "br-n3",
+      "longname": "clab-open5gs-5gc-br-n3",
+      "fqdn": "br-n3.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/br-n3",
+      "kind": "ovs-bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "ovs-bridge",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/br-n3",
+        "clab-node-name": "br-n3",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+      ]
+    },
+    "br-sbi": {
+      "index": "4",
+      "shortname": "br-sbi",
+      "longname": "clab-open5gs-5gc-br-sbi",
+      "fqdn": "br-sbi.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/br-sbi",
+      "kind": "ovs-bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "ovs-bridge",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/br-sbi",
+        "clab-node-name": "br-sbi",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+      ]
+    },
+    "bsf": {
+      "index": "5",
+      "shortname": "bsf",
+      "longname": "clab-open5gs-5gc-bsf",
+      "fqdn": "bsf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/bsf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.9",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::9",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/bsf",
+        "clab-node-name": "bsf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "mongodb": {
+      "index": "6",
+      "shortname": "mongodb",
+      "longname": "clab-open5gs-5gc-mongodb",
+      "fqdn": "mongodb.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/mongodb",
+      "kind": "linux",
+      "image": "giros-dit/mongodb:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.3",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::3",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/mongodb",
+        "clab-node-name": "mongodb",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+      ]
+    },
+    "nrf": {
+      "index": "7",
+      "shortname": "nrf",
+      "longname": "clab-open5gs-5gc-nrf",
+      "fqdn": "nrf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/nrf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.13",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::d",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/nrf",
+        "clab-node-name": "nrf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "nssf": {
+      "index": "8",
+      "shortname": "nssf",
+      "longname": "clab-open5gs-5gc-nssf",
+      "fqdn": "nssf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/nssf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.8",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::8",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/nssf",
+        "clab-node-name": "nssf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "pcf": {
+      "index": "9",
+      "shortname": "pcf",
+      "longname": "clab-open5gs-5gc-pcf",
+      "fqdn": "pcf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/pcf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.6",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::6",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/pcf",
+        "clab-node-name": "pcf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "scp": {
+      "index": "10",
+      "shortname": "scp",
+      "longname": "clab-open5gs-5gc-scp",
+      "fqdn": "scp.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/scp",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.5",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::5",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/scp",
+        "clab-node-name": "scp",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "smf": {
+      "index": "11",
+      "shortname": "smf",
+      "longname": "clab-open5gs-5gc-smf",
+      "fqdn": "smf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/smf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.4",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::4",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/smf",
+        "clab-node-name": "smf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "udm": {
+      "index": "12",
+      "shortname": "udm",
+      "longname": "clab-open5gs-5gc-udm",
+      "fqdn": "udm.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/udm",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.14",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::e",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/udm",
+        "clab-node-name": "udm",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "udr": {
+      "index": "13",
+      "shortname": "udr",
+      "longname": "clab-open5gs-5gc-udr",
+      "fqdn": "udr.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/udr",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.2",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::2",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/udr",
+        "clab-node-name": "udr",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "upf": {
+      "index": "14",
+      "shortname": "upf",
+      "longname": "clab-open5gs-5gc-upf",
+      "fqdn": "upf.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/upf",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::c",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/upf",
+        "clab-node-name": "upf",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "virbr0": {
+      "index": "15",
+      "shortname": "virbr0",
+      "longname": "clab-open5gs-5gc-virbr0",
+      "fqdn": "virbr0.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/virbr0",
+      "kind": "bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "bridge",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/virbr0",
+        "clab-node-name": "virbr0",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+      ]
+    },
+    "webui": {
+      "index": "16",
+      "shortname": "webui",
+      "longname": "clab-open5gs-5gc-webui",
+      "fqdn": "webui.open5gs-5gc.io",
+      "group": "",
+      "labdir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/webui",
+      "kind": "linux",
+      "image": "giros-dit/open5gs:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.48.196.11",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "2001:172:48:196::b",
+      "mgmt-ipv6-prefix-length": 80,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-26fec05530bb",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/scripts/clab-open5gs-5gc/webui",
+        "clab-node-name": "webui",
+        "clab-node-type": "",
+        "clab-topo-file": "/home/aitorencinas/tmp/containerlab-cellular-testbeds/containerlab/5gsa-open5gs-srsran/topologies/open5gs-5gc.yaml",
+        "containerlab": "open5gs-5gc"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 22,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "links": [
+    {
+      "a": {
+        "node": "upf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:54:b7:b3",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-n3",
+        "interface": "upf-n3",
+        "mac": "aa:c1:ab:1d:a7:ee",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "amf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:2f:46:30",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-n2",
+        "interface": "amf-n2",
+        "mac": "aa:c1:ab:06:29:5c",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "upf",
+        "interface": "eth3",
+        "mac": "aa:c1:ab:bd:40:ed",
+        "peer": "z"
+      },
+      "z": {
+        "node": "smf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:45:83:cf",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "upf",
+        "interface": "eth2",
+        "mac": "aa:c1:ab:49:49:c7",
+        "peer": "z"
+      },
+      "z": {
+        "node": "virbr0",
+        "interface": "upf-n6",
+        "mac": "aa:c1:ab:60:35:cb",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "amf",
+        "interface": "eth2",
+        "mac": "aa:c1:ab:2a:7b:8e",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "amf-sbi",
+        "mac": "aa:c1:ab:e5:c3:88",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "smf",
+        "interface": "eth2",
+        "mac": "aa:c1:ab:68:b3:db",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "smf-sbi",
+        "mac": "aa:c1:ab:1d:1f:22",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "pcf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:9a:e5:86",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "pcf-sbi",
+        "mac": "aa:c1:ab:b6:d4:2f",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "udr",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:f1:1e:51",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "udr-sbi",
+        "mac": "aa:c1:ab:b0:82:3c",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "udm",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:3e:c3:e8",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "udm-sbi",
+        "mac": "aa:c1:ab:60:1c:24",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "ausf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:64:2e:d0",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "ausf-sbi",
+        "mac": "aa:c1:ab:d6:21:57",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "nrf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:7c:63:2a",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "nrf-sbi",
+        "mac": "aa:c1:ab:06:8e:0e",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "nssf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:be:6a:73",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "nssf-sbi",
+        "mac": "aa:c1:ab:31:97:dd",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "bsf",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:5d:62:30",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "bsf-sbi",
+        "mac": "aa:c1:ab:c3:9e:e2",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "scp",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:c3:e3:7f",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "scp-sbi",
+        "mac": "aa:c1:ab:98:d1:dc",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "mongodb",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:fd:cd:dd",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "mongodb",
+        "mac": "aa:c1:ab:f1:2b:c4",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "webui",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:98:4b:01",
+        "peer": "z"
+      },
+      "z": {
+        "node": "br-sbi",
+        "interface": "webui",
+        "mac": "aa:c1:ab:06:29:f2",
+        "peer": "a"
+      }
+    }
+  ]
+}
