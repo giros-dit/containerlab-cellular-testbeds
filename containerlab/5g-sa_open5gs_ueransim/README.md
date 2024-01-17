@@ -4,6 +4,8 @@
 
 ![](resources/5g-sa_open5gs_ueransim.drawio.png)
 
+**Roaming is not supported yet.**
+
 ## Deploying the scenario
 
 ```

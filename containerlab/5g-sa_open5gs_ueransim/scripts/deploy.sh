@@ -52,9 +52,9 @@ echo '3.- Copying gNB and UE configuration files for UERANSIM containers...'
 
 sudo docker cp ../conf/ueransim/gnb.yaml clab-ueransim-gnb:/
 sudo docker exec -td clab-ueransim-gnb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
-sudo docker cp ../conf/ueransim/ue.yaml clab-ueransim-ue1:/
+sudo docker cp ../conf/ueransim/ue1.yaml clab-ueransim-ue1:/
 sudo docker exec -td clab-ueransim-ue1 /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
-sudo docker cp ../conf/ueransim/ue.yaml clab-ueransim-ue2:/
+sudo docker cp ../conf/ueransim/ue2.yaml clab-ueransim-ue2:/
 sudo docker exec -td clab-ueransim-ue2 /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'

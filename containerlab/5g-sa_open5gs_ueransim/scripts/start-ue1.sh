@@ -27,7 +27,7 @@ echo 'Starting UERANSIM UE 1 (in foreground)...'
 echo ''
 echo ''
 
-sudo docker exec -it clab-ueransim-ue1 /UERANSIM/build/nr-ue -c /ue.yaml
+sudo docker exec -it clab-ueransim-ue1 /UERANSIM/build/nr-ue -c /ue1.yaml
 
 echo ''
 echo ''
