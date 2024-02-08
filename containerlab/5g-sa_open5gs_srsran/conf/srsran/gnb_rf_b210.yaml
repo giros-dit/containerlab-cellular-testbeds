@@ -27,11 +27,11 @@ rf_driver:
 
 cell_cfg:
   # ARFCN of the downlink carrier (center frequency).
-  dl_arfcn: 191980
+  dl_arfcn: 151600
   # The NR band.
-  band: 8
+  band: 28
   # Bandwith in MHz. Number of PRBs will be automatically derived.
-  channel_bandwidth_MHz: 10
+  channel_bandwidth_MHz: 5
   # Subcarrier spacing in kHz used for data.
   common_scs: 15
   # PLMN broadcasted by the gNB.
