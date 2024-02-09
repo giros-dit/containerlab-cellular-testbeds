@@ -36,17 +36,16 @@ RUN apt update && apt dist-upgrade -y && apt autoremove -y && apt autoclean
 RUN apt install -y sudo nano bash net-tools ldnsutils iputils-ping traceroute iproute2 \
     openssh-server tcpdump unzip subversion git curl wget gnupg software-properties-common
 
-RUN apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev
+RUN apt install -y build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev
  
 # Install UHD from the official PPA repository.
-RUN apt-get install libuhd-dev uhd-host
+RUN apt install -y libuhd-dev uhd-host
 
 # Install USRP firmware images.
 RUN uhd_images_downloader
 
 # Install the srsRAN 4G software 
 RUN git clone https://github.com/srsRAN/srsRAN_4G.git && cd srsRAN_4G && mkdir build && cd build && cmake ../ && make && make test
-RUN sudo make install && srsran_install_configs.sh user
 
 # Finally, create an administration user, set a password for the root user and enable SSH access.
 # Reference: https://medium.com/@leicao.me/how-to-ssh-into-a-docker-container-remotely-as-root-or-a-non-root-user-b2105c797273

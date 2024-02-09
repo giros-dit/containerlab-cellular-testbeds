@@ -21,9 +21,9 @@ ru_sdr:
   # RF sample rate might need to be adjusted according to selected bandwidth.
   srate: 11.52
   # Transmit gain of the RF might need to adjusted to the given situation.
-  tx_gain: 75
+  tx_gain: 50
   # Receive gain of the RF might need to adjusted to the given situation.                                                   
-  rx_gain: 75
+  rx_gain: 40
 
 cell_cfg:
   # ARFCN of the downlink carrier (center frequency).
@@ -35,7 +35,7 @@ cell_cfg:
   # Subcarrier spacing in kHz used for data.
   common_scs: 15
   # PLMN broadcasted by the gNB.
-  plmn: "99970"
+  plmn: "00101"
   # Tracking area code (needs to match the core configuration).
   tac: 7
   pdcch:
@@ -63,4 +63,3 @@ pcap:
   ngap_enable: false
   # Path where the NGAP PCAP is stored.
   ngap_filename: /tmp/gnb_ngap.pcap
-    

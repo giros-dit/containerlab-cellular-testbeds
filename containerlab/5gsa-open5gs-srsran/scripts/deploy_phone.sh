@@ -82,8 +82,8 @@ echo ''
 
 echo '6.- Copying AMF configuration file and starting its daemon...'
 
-sudo docker cp ../conf/open5gs/amf.yaml clab-open5gs-5gc-amf:/
-sudo docker exec -td clab-open5gs-5gc-amf /open5gs/install/bin/open5gs-amfd -c /amf.yaml
+sudo docker cp ../conf/open5gs/amf_phone.yaml clab-open5gs-5gc-amf:/
+sudo docker exec -td clab-open5gs-5gc-amf /open5gs/install/bin/open5gs-amfd -c /amf_phone.yaml
 sudo docker exec -td clab-open5gs-5gc-amf /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
@@ -185,8 +185,8 @@ echo '15.- Starting Open5GS WebUI and registering UE subscriber identity...'
 sudo docker exec -td clab-open5gs-5gc-webui /bin/bash -c 'export DB_URI=mongodb://10.254.1.100/open5gs && npm run dev --prefix /open5gs/webui'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010000000001 465B5CE8B199B49FAA5F0A2EE238A6BC E8ED289DEBA952E4283B54E88E6183CA'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010000000001 1'
-sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010123456780 00112233445566778899aabbccddeeff 63BFA50EE6523365FF14C1F45F88737D'
-sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010123456780 1'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl add 001010123456789 41B7157E3337F0ADD8DA89210D89E17F 1CD638FC96E02EBD35AA0D41EB6F812F'
+sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c '/open5gs-dbctl type 001010123456789 1'
 sudo docker exec -td clab-open5gs-5gc-mongodb /bin/bash -c 'mkdir /var/run/sshd && /usr/sbin/sshd -D'
 
 echo 'Done.'
@@ -206,6 +206,5 @@ echo 'Done.'
 
 echo ''
 echo ''
-
 
 echo 'All done. Scenario fully deployed.'

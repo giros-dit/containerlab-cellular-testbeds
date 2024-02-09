@@ -12,31 +12,31 @@ all:
     linux:
       hosts:
         clab-open5gs-5gc-amf:
-          ansible_host: 172.48.196.10
+          ansible_host: 172.48.196.6
         clab-open5gs-5gc-ausf:
-          ansible_host: 172.48.196.7
+          ansible_host: 172.48.196.13
         clab-open5gs-5gc-bsf:
-          ansible_host: 172.48.196.9
+          ansible_host: 172.48.196.10
         clab-open5gs-5gc-mongodb:
           ansible_host: 172.48.196.3
         clab-open5gs-5gc-nrf:
-          ansible_host: 172.48.196.13
-        clab-open5gs-5gc-nssf:
           ansible_host: 172.48.196.8
+        clab-open5gs-5gc-nssf:
+          ansible_host: 172.48.196.14
         clab-open5gs-5gc-pcf:
-          ansible_host: 172.48.196.6
+          ansible_host: 172.48.196.12
         clab-open5gs-5gc-scp:
           ansible_host: 172.48.196.5
         clab-open5gs-5gc-smf:
           ansible_host: 172.48.196.4
         clab-open5gs-5gc-udm:
-          ansible_host: 172.48.196.14
+          ansible_host: 172.48.196.7
         clab-open5gs-5gc-udr:
-          ansible_host: 172.48.196.2
-        clab-open5gs-5gc-upf:
-          ansible_host: 172.48.196.12
-        clab-open5gs-5gc-webui:
           ansible_host: 172.48.196.11
+        clab-open5gs-5gc-upf:
+          ansible_host: 172.48.196.9
+        clab-open5gs-5gc-webui:
+          ansible_host: 172.48.196.2
     ovs-bridge:
       hosts:
         clab-open5gs-5gc-br-n2:

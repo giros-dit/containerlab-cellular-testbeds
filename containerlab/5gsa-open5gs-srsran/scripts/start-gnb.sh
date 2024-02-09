@@ -27,7 +27,7 @@ echo 'Starting srsRAN Project gNodeB (in foreground)...'
 echo ''
 echo ''
 
-sudo docker exec -it /srsRAN_Project/build/apps/gnb/gnb -c ../../../../gnb_rf_b210.yaml -c ../../../../qos.yaml
+sudo docker exec -it srsran-gnb /srsRAN_Project/build/apps/gnb/gnb -c ../../../../gnb_rf_b210.yaml -c ../../../../qos.yaml
 
 echo ''
 echo ''
