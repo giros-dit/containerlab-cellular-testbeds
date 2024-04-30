@@ -1,5 +1,11 @@
 # _Containerlab_ testbeds for cellular mobile communications networks
 
+## Acknowledgements
+
+This work is a result of project [ECTICS](https://www.dit.upm.es/~giros/project/ectics/) (PID2019-105257RB-C21), funded by:
+
+![financing-logo](doc/img/MICIU_AEI_w400.jpg)
+
 ## About
 
 The main goal of this repository is to provide testbed scenarios for cellular mobile communications networks (e.g., LTE/4G/5G) using _Containerlab_ (based on _Docker_ containers).
