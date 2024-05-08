@@ -6,6 +6,10 @@ This work is a result of project [ECTICS](https://www.dit.upm.es/~giros/project/
 
 ![financing-logo](doc/img/MICIU_AEI_w400.jpg)
 
+_All images and logos are property of their respective owners. Click over any logo in the __Featured implementations__ section to open the official project's webpage for further information and documentation._
+
+Special thanks to every developer and contributor that made any featured implementation possible.
+
 ## About
 
 The main goal of this repository is to provide testbed scenarios for cellular mobile communications networks (e.g., LTE/4G/5G) using _Containerlab_ (based on _Docker_ containers).
@@ -90,8 +94,3 @@ If the above command does not work, you can directly open _Wireshark_, select th
 You can SSH to the containers deployed in any scenario with the following set of credentials:
 - Username: `root` - Password: `gprsumts`.
 - Username: `admin` - Password: `admintelecom`.
-
-## Disclaimer and acknowledgements
-_All images and logos are property of their respective owners. Click over any logo to open the official project's webpage for further information and documentation._
-
-Special thanks to every developer and contributor that made any featured implementation possible.
