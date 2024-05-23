@@ -4,11 +4,9 @@
 
 ![](resources/5g-sa_open5gs_srsran.drawio.png)
 
-**Roaming is not supported yet.**
-
 ## Deploying the scenario
 
-```
+```bash
 $ cd scripts/
 $ ./deploy.sh
 ```
@@ -17,7 +15,7 @@ $ ./deploy.sh
 
 ## Destroying the scenario
 
-```
+```bash
 $ cd scripts/
 $ ./destroy.sh
 ```

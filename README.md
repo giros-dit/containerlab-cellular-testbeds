@@ -4,7 +4,7 @@
 
 This work is a result of project [ECTICS](https://www.dit.upm.es/~giros/project/ectics/) (PID2019-105257RB-C21), funded by:
 
-![financing-logo](doc/img/MICIU_AEI_w400.jpg)
+![financing-logo](resources/images/MICIU_AEI_w400.jpg)
 
 _All images and logos are property of their respective owners. Click over any logo in the __Featured implementations__ section to open the official project's webpage for further information and documentation._
 
@@ -45,7 +45,7 @@ In order to run the scenarios, you need to have the following:
 
 You need to build the _Docker_ images for all containers. Follow these steps (assuming you have a terminal opened at this project's root directory):
 
-```
+```bash
 # For UERANSIM containers:
 $ cd docker/ueransim/
 $ sudo docker build --no-cache -t giros-dit/ueransim:latest .
@@ -81,7 +81,7 @@ In the ![`containerlab`](containerlab) directory there are several subdirectorie
 This command serves as a template to capture traffic with _Wireshark_ in any container. You just need to replace `<clab-container-name>` with the desired _Containerlab_ container name and `<container-interface>` with the desired network interface inside the container.
 The name of the container can be obtained right after deploying the topology or by executing the `docker container ps -a` command.
 
-```
+```bash
 $ sudo ip netns exec <clab-container-name> tcpdump -l -nni <container-interface> -w - | wireshark -k -i -
 ```
 
